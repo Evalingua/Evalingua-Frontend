@@ -10,8 +10,8 @@ const Header = (props: {
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
   return (
-    <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
-      <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
+    <header className="sticky top-0 z-[100] flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
+      <div className="flex flex-grow items-center justify-between px-4 py-3 shadow-2 md:px-6 2xl:px-11">
         <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
           {/* <!-- Hamburger Toggle BTN --> */}
           <button
@@ -62,7 +62,7 @@ const Header = (props: {
         </div>
 
         <div className="hidden sm:block">
-          <form action="https://formbold.com/s/unique_form_id" method="POST">
+          {/* <form action="https://formbold.com/s/unique_form_id" method="POST">
             <div className="relative">
               <button className="absolute left-0 top-1/2 -translate-y-1/2">
                 <svg
@@ -94,7 +94,7 @@ const Header = (props: {
                 className="w-full bg-transparent pl-9 pr-4 text-black focus:outline-none dark:text-white xl:w-125"
               />
             </div>
-          </form>
+          </form> */}
         </div>
 
         <div className="flex items-center gap-3 2xsm:gap-7">
@@ -107,9 +107,9 @@ const Header = (props: {
             <DropdownNotification />
             {/* <!-- Notification Menu Area --> */}
 
-            {/* <!-- Chat Notification Area --> */}
+            {/* {/* <!-- Chat Notification Area -->
             <DropdownMessage />
-            {/* <!-- Chat Notification Area --> */}
+             <!-- Chat Notification Area --> */}
           </ul>
 
           {/* <!-- User Area --> */}

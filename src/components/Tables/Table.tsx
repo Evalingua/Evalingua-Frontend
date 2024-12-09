@@ -1,5 +1,64 @@
 import React from 'react';
 
+type PaginationProps = {
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
+  totalItems: number;
+  onPageChange: (page: number) => void;
+};
+
+// Componente de paginación
+const Pagination = ({
+  currentPage,
+  pageSize,
+  totalPages,
+  totalItems,
+  onPageChange,
+}: PaginationProps) => {
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  return (
+    <div className="flex justify-between items-center p-2">
+      <div className="flex gap-3 items-center">
+        <button
+          onClick={handlePrevious}
+          disabled={currentPage === 1}
+          className="text-sm font-medium"
+        >
+          Anterior
+        </button>
+        <span className="text-sm font-medium">
+          Página {currentPage} de {totalPages}
+        </span>
+        <button
+          onClick={handleNext}
+          disabled={currentPage === totalPages}
+          className="text-sm font-medium"
+        >
+          Siguiente
+        </button>
+      </div>
+      <div>
+        <small>
+          Mostrando {pageSize} elementos por página, de un total de {totalItems}{' '}
+          elementos
+        </small>
+      </div>
+    </div>
+  );
+};
+
 type Column = {
   title: string;
   key: string;
@@ -15,11 +74,15 @@ type TableProps = {
   columns: Column[];
   data: any[]; // Aquí puedes definir el tipo específico que esperas
   actions?: Action[]; // Acciones opcionales
+  paginationEnabled?: boolean; // Habilitar o deshabilitar la paginación
+  paginationProps?: any; // Propiedades de la paginación
 };
 
-const Table = ({ columns, data, actions }: TableProps) => {
-  return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+const Table = ({ columns, data, actions, paginationEnabled, paginationProps }: TableProps) => {
+    const { currentPage = 0, pageSize = 10, totalPages = 1, totalItems = 10, onPageChange } =
+      paginationProps || {};
+  return(
+    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ">
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead>
@@ -27,13 +90,13 @@ const Table = ({ columns, data, actions }: TableProps) => {
               {columns.map((column, index) => (
                 <th
                   key={index}
-                  className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white"
+                  className="min-w-[100px] py-2 px-3 font-medium text-sm text-black dark:text-white"
                 >
                   {column.title}
                 </th>
               ))}
               {actions && (
-                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                <th className="py-2 px-3 font-medium text-black dark:text-white">
                   Actions
                 </th>
               )}
@@ -45,13 +108,13 @@ const Table = ({ columns, data, actions }: TableProps) => {
                 {columns.map((column, colIndex) => (
                   <td
                     key={colIndex}
-                    className="border-b border-[#eee] py-5 px-4 dark:border-strokedark"
+                    className="border-b border-[#eee] py-2 px-3 text-sm dark:border-strokedark"
                   >
                     {column.render ? column.render(item) : item[column.key]}
                   </td>
                 ))}
                 {actions && (
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <td className="border-b border-[#eee] py-3 px-3 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
                       {actions.map((action, actionIndex) => (
                         <button
@@ -158,10 +221,10 @@ const Table = ({ columns, data, actions }: TableProps) => {
                               fill="none"
                               xmlns="http://www.w3.org/2000/svg"
                             >
-                              <g clip-path="url(#clip0_148_330)">
+                              <g clipPath="url(#clip0_148_330)">
                                 <path
-                                  fill-rule="evenodd"
-                                  clip-rule="evenodd"
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
                                   d="M6.82928 4.5H18.8293C20.4206 4.5 21.9467 5.13214 23.0719 6.25736C24.1971 7.38258 24.8293 8.9087 24.8293 10.5V15C24.8293 16.5913 24.1971 18.1174 23.0719 19.2426C21.9467 20.3679 20.4206 21 18.8293 21H6.82928C5.23799 21 3.71186 20.3679 2.58664 19.2426C1.46143 18.1174 0.829285 16.5913 0.829285 15V10.5C0.829285 8.9087 1.46143 7.38258 2.58664 6.25736C3.71186 5.13214 5.23799 4.5 6.82928 4.5ZM6.82928 6C5.63581 6 4.49122 6.47411 3.6473 7.31802C2.80339 8.16193 2.32928 9.30653 2.32928 10.5V15C2.32928 16.1935 2.80339 17.3381 3.6473 18.182C4.49122 19.0259 5.63581 19.5 6.82928 19.5H18.8293C20.0228 19.5 21.1674 19.0259 22.0113 18.182C22.8552 17.3381 23.3293 16.1935 23.3293 15V10.5C23.3293 9.30653 22.8552 8.16193 22.0113 7.31802C21.1674 6.47411 20.0228 6 18.8293 6H6.82928Z"
                                   fill=""
                                 />
@@ -191,6 +254,17 @@ const Table = ({ columns, data, actions }: TableProps) => {
             ))}
           </tbody>
         </table>
+
+        {/* Renderizar paginación solo si está habilitada */}
+        {paginationEnabled && (
+          <Pagination
+            currentPage={currentPage}
+            pageSize={pageSize}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            onPageChange={onPageChange}
+          />
+        )}
       </div>
     </div>
   );

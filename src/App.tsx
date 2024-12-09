@@ -5,9 +5,7 @@ import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
-import Calendar from './pages/Calendar';
 import Chart from './pages/Chart';
-import ECommerce from './pages/Dashboard/ECommerce';
 import FormElements from './pages/Form/FormElements';
 import FormLayout from './pages/Form/FormLayout';
 import Profile from './pages/Profile';
@@ -16,6 +14,13 @@ import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
+import AuthLayout from './layout/AuthLayout';
+import {AuthGuard} from './guards/AuthGuard';
+import NotFound from './pages/NotFound';
+import Inicio from './pages/Inicio/Inicio';
+import Pacientes from './pages/Pacientes/Pacientes';
+import Configuracion from './pages/Configuracion/Configuracion';
+import Resultados from './pages/Resultados/Resultados';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,124 +31,178 @@ function App() {
   }, [pathname]);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
+    setTimeout(() => setLoading(false), 500);
   }, []);
 
-  return loading ? (
-    <Loader />
-  ) : (
-    <DefaultLayout>
-      <Routes>
-        <Route
-          index
-          element={
-            <>
-              <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <ECommerce />
-            </>
-          }
-        />
-        <Route
-          path="/calendar"
-          element={
-            <>
-              <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Calendar />
-            </>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <>
+  if (loading) {
+    return <Loader />;
+  }
+
+  return (
+    <Routes>
+      {/* Rutas de autenticación */}
+      <Route
+        path="/auth/signin"
+        element={
+          <AuthLayout>
+            <PageTitle title="Inicia sesión | Evalingua" />
+            <SignIn />
+          </AuthLayout>
+        }
+      />
+      <Route
+        path="/auth/signup"
+        element={
+          <AuthLayout>
+            <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+            <SignUp />
+          </AuthLayout>
+        }
+      />
+
+      {/* Rutas protegidas */}
+      <Route
+        index
+        element={
+          <AuthGuard>
+            <DefaultLayout>
+              <PageTitle title="Inicio | Evalingua" />
+              <Inicio />
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/pacientes"
+        element={
+          <AuthGuard>
+            <DefaultLayout>
+              <PageTitle title="Pacientes | Evalingua" />
+              <Pacientes />
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <AuthGuard>
+            <DefaultLayout>
               <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Profile />
-            </>
-          }
-        />
-        <Route
-          path="/forms/form-elements"
-          element={
-            <>
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/forms/form-elements"
+        element={
+          <AuthGuard>
+            <DefaultLayout>
               <PageTitle title="Form Elements | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <FormElements />
-            </>
-          }
-        />
-        <Route
-          path="/forms/form-layout"
-          element={
-            <>
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/forms/form-layout"
+        element={
+          <AuthGuard>
+            <DefaultLayout>
               <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <FormLayout />
-            </>
-          }
-        />
-        <Route
-          path="/tables"
-          element={
-            <>
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/tables"
+        element={
+          <AuthGuard>
+            <DefaultLayout>
               <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Tables />
-            </>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <>
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <AuthGuard>
+            <DefaultLayout>
               <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Settings />
-            </>
-          }
-        />
-        <Route
-          path="/chart"
-          element={
-            <>
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/chart"
+        element={
+          <AuthGuard>
+            <DefaultLayout>
               <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Chart />
-            </>
-          }
-        />
-        <Route
-          path="/ui/alerts"
-          element={
-            <>
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/ui/alerts"
+        element={
+          <AuthGuard>
+            <DefaultLayout>
               <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Alerts />
-            </>
-          }
-        />
-        <Route
-          path="/ui/buttons"
-          element={
-            <>
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/ui/buttons"
+        element={
+          <AuthGuard>
+            <DefaultLayout>
               <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Buttons />
-            </>
-          }
-        />
-        <Route
-          path="/auth/signin"
-          element={
-            <>
-              <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <SignIn />
-            </>
-          }
-        />
-        <Route
-          path="/auth/signup"
-          element={
-            <>
-              <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <SignUp />
-            </>
-          }
-        />
-      </Routes>
-    </DefaultLayout>
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/configuracion"
+        element={
+          <AuthGuard>
+            <DefaultLayout>
+              <PageTitle title="Configuración | Evalingua" />
+              <Configuracion />
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/resultados"
+        element={
+          <AuthGuard>
+            <DefaultLayout>
+              <PageTitle title="Resultados | Evalingua" />
+              <Resultados />
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="*"
+        element={
+          <AuthLayout>
+            <PageTitle title="404" />
+            <NotFound />
+          </AuthLayout>
+        }
+      />
+    </Routes>
   );
 }
 

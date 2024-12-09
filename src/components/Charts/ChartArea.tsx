@@ -12,6 +12,8 @@ interface ChartProps {
   }[];
   colors?: string[];
   legendPosition?: 'top' | 'bottom' | 'left' | 'right';
+  max_value?: number;
+  height?: number;
 }
 
 const ChartArea: React.FC<ChartProps> = ({
@@ -20,6 +22,9 @@ const ChartArea: React.FC<ChartProps> = ({
   seriesData,
   colors = ['#FFB000', '#3C50E0', '#80CAEE', '#3056D3'],
   legendPosition = 'top',
+  max_value = 100,
+  height = 350,
+
 }) => {
   const options: ApexOptions = {
     legend: {
@@ -109,7 +114,7 @@ const ChartArea: React.FC<ChartProps> = ({
         },
       },
       min: 0,
-      max: 100,
+      max: max_value,
     },
   };
 
@@ -125,7 +130,7 @@ const ChartArea: React.FC<ChartProps> = ({
             options={options}
             series={seriesData}
             type="area"
-            height={350}
+            height={height}
           />
         </div>
       </div>
