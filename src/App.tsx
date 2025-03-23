@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
@@ -21,6 +22,7 @@ import Inicio from './pages/Inicio/Inicio';
 import Pacientes from './pages/Pacientes/Pacientes';
 import Configuracion from './pages/Configuracion/Configuracion';
 import Resultados from './pages/Resultados/Resultados';
+import PacienteDetalle from './pages/Pacientes/PacienteDetalle';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -83,6 +85,17 @@ function App() {
           </AuthGuard>
         }
       />
+      <Route
+            path='pacientes/detalle/:idEncriptado'
+            element={
+              <AuthGuard>
+                <DefaultLayout>
+                  <PageTitle title="Detalle del paciente | Evalingua" />
+                  <PacienteDetalle />
+                </DefaultLayout>
+              </AuthGuard>
+            }
+          />
       <Route
         path="/profile"
         element={
@@ -172,7 +185,7 @@ function App() {
         }
       />
       <Route
-        path="/configuracion"
+        path="/configuracion/:idEncriptado"
         element={
           <AuthGuard>
             <DefaultLayout>

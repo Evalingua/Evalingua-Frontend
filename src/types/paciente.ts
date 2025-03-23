@@ -1,5 +1,5 @@
 export interface PacienteResponse {
-  dni: number;
+  dni: string;
   nombre: string;
   apellidoMaterno: string;
   apellidoPaterno: string;
@@ -9,6 +9,15 @@ export interface PacienteResponse {
   sexo: string;
   observaciones: string;
   usuarioRegistro: string;
+}
+
+export interface ListarPacienteRequest {
+  page?: number,
+  size?: number,
+  dni?: string,
+  nombres?: string,
+  usuarioRegistro?: string,
+  estadoRegistro?: boolean
 }
 
 export interface PacienteRequest {

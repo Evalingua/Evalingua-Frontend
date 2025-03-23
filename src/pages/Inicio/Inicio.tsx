@@ -35,11 +35,11 @@ const Inicio: React.FC = () => {
                 <g
                   fill="none"
                   stroke="currentColor"
-                  stroke-linejoin="round"
-                  stroke-width="4"
+                  strokeLinejoin="round"
+                  strokeWidth="4"
                 >
                   <path d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20Z" />
-                  <path stroke-linecap="round" d="M24 16v16m-8-8h16" />
+                  <path strokeLinecap="round" d="M24 16v16m-8-8h16" />
                 </g>
               </svg>
               <h3 className="text-slate_blue font-bold dark:text-slate-200">

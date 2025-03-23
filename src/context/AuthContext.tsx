@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import {jwtDecode} from 'jwt-decode'; // Importa jwt-decode
 import { AuthState, AuthResponse, Role } from '../types/auth.type';
+import { BaseResponse } from '../types/page';
 
 interface AuthContextType extends AuthState {
   login: (username: string, password: string) => Promise<void>;
@@ -16,22 +18,31 @@ const initialState: AuthState = {
   token: null,
 };
 
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
 type AuthAction =
-  | { type: 'LOGIN_SUCCESS'; payload: AuthResponse }
+  | { type: 'LOGIN_SUCCESS'; payload: { token: string } }
   | { type: 'LOGOUT' }
   | { type: 'TOKEN_INVALID' };
 
 function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
-    case 'LOGIN_SUCCESS':
+    case 'LOGIN_SUCCESS': {
+      // Decodificar el token para extraer el username y el rol
+      const decodedToken = jwtDecode(action.payload.token) as {
+        sub: string; // Asume que el username está en el claim "sub"
+        role: Role;
+      };
+
       return {
         isAuthenticated: true,
         user: {
-          username: action.payload.username,
-          role: action.payload.role,
+          username: decodedToken.sub,
+          role: decodedToken.role,
         },
         token: action.payload.token,
       };
+    }
     case 'LOGOUT':
     case 'TOKEN_INVALID':
       return initialState;
@@ -48,16 +59,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   // Función para verificar la validez del token
   const validateToken = async (token: string): Promise<boolean> => {
     try {
-      const response = await fetch(
-        'http://localhost:8080/api/v1/auth/validate',
-        {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
+      const response = await fetch(`${baseUrl}/auth/validate`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
-      );
+      });
 
       return response.ok;
     } catch (error) {
@@ -68,28 +76,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Función para verificar el estado de autenticación
   const checkAuthStatus = async (): Promise<boolean> => {
-    const savedAuth = localStorage.getItem('auth');
-    if (!savedAuth) return false;
+    const token = localStorage.getItem('token'); // Solo guardamos el token
+    if (!token) return false;
 
     try {
-      const authData = JSON.parse(savedAuth);
-      const isValid = await validateToken(authData.data.token);
+      const isValid = await validateToken(token);
 
       if (!isValid) {
         dispatch({ type: 'TOKEN_INVALID' });
-        localStorage.removeItem('auth');
+        localStorage.removeItem('token');
         return false;
       }
 
       if (!state.isAuthenticated) {
-        dispatch({ type: 'LOGIN_SUCCESS', payload: authData });
+        dispatch({ type: 'LOGIN_SUCCESS', payload: { token } });
       }
 
       return true;
     } catch (error) {
       console.error('Auth status check error:', error);
       dispatch({ type: 'TOKEN_INVALID' });
-      localStorage.removeItem('auth');
+      localStorage.removeItem('token');
       return false;
     }
   };
@@ -110,7 +117,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await fetch('http://localhost:8080/api/v1/auth/signin', {
+      const response = await fetch(`${baseUrl}/auth/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -122,9 +129,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         throw new Error('Login failed');
       }
 
-      const data: AuthResponse = await response.json();
-      localStorage.setItem('auth', JSON.stringify(data));
-      dispatch({ type: 'LOGIN_SUCCESS', payload: data });
+      const data: BaseResponse<AuthResponse> = await response.json();
+      localStorage.setItem('token', data.data.token); // Solo guardamos el token
+      dispatch({ type: 'LOGIN_SUCCESS', payload: { token: data.data.token.toString() } });
     } catch (error) {
       console.error('Login error:', error);
       throw error;
@@ -132,7 +139,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const logout = () => {
-    localStorage.removeItem('auth');
+    localStorage.removeItem('token');
     dispatch({ type: 'LOGOUT' });
   };
 

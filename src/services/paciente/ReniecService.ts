@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ReniecResponse } from "../../../types/reniec";
+import { ReniecResponse } from "../../types/reniec";
 
 const externalApi = axios.create({
   baseURL: 'https://apiuser.aviva.pe/api/v1/patient/getFromRENIEC',

@@ -1,6 +1,6 @@
 import React from 'react';
 
-type PaginationProps = {
+export type PaginationProps = {
   currentPage: number;
   pageSize: number;
   totalPages: number;
@@ -97,7 +97,7 @@ const Table = ({ columns, data, actions, paginationEnabled, paginationProps }: T
               ))}
               {actions && (
                 <th className="py-2 px-3 font-medium text-black dark:text-white">
-                  Actions
+                  Acciones
                 </th>
               )}
             </tr>

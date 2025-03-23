@@ -1,33 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Breadcumb from '../../components/Breadcrumbs/Breadcrumb';
-import Table from '../../components/Tables/Table';
+import Table, { PaginationProps } from '../../components/Tables/Table';
 import Input from '../../components/Inputs/Input';
 import Select from '../../components/Forms/SelectGroup/Select';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
-import { PacienteService } from './services/pacienteService';
-import { ReniecService } from './services/reniecService';
+import { PacienteService } from '../../services/paciente/PacienteService';
+import { ReniecService } from '../../services/paciente/ReniecService';
 import Textarea from '../../components/Inputs/TextArea';
-import { Link, useNavigate } from 'react-router-dom';
-import { PacienteRequest, PacienteResponse } from '../../types/paciente';
-import CryptoJS from 'crypto-js';
+import { useNavigate } from 'react-router-dom';
+import { PacienteRequest, PacienteResponse, ListarPacienteRequest } from '../../types/paciente';
+import { differenceInYears, format, parseISO } from 'date-fns';
+import { encrypt } from '../../common/Crypto/crypto';
+import DatePicker from '../../components/Forms/DatePicker/DatePicker';
+import { useAuth } from '../../context/AuthContext';
+import { toast } from 'react-toastify';
 
 const Pacientes: React.FC = () => {
   const pacienteService = new PacienteService();
   const reniecService = new ReniecService();
   const navigate = useNavigate();
-  const auth = localStorage.getItem('auth') || '{}';
+  const {user} = useAuth();
 
   const [pacientesList, setPacientesList] = React.useState<PacienteResponse[]>(
     [],
   );
-  const [search, setSearch] = React.useState<string>('');
+  const [searchNombre, setSearchNombre] = React.useState<string | undefined>('');
+  const [searchDni, setSearchDni] = React.useState<string | undefined>('');
   const [pacienteModal, setPacienteModal] = React.useState({
     dni: '',
     nombre: '',
     apellidoPaterno: '',
     apellidoMaterno: '',
-    fechaNacimiento: '',
+    fechaNacimiento: new Date(),
     edad: 0,
     sexo: '',
     observaciones: '',
@@ -36,12 +41,12 @@ const Pacientes: React.FC = () => {
   const [showPacienteModal, setShowPacienteModal] =
     React.useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
-  const [paginationProps, setPaginationProps] = useState({
-    currentPage: 0,
+  const [paginationProps, setPaginationProps] = React.useState<PaginationProps>({
+    currentPage: 1,
     pageSize: 10,
-    totalPages: 1,
-    totalItems: 10,
-    onPageChange: (page: number) => console.log('Page:', page),
+    totalPages: 0,
+    totalItems: 0,
+    onPageChange: (page: number) => handlePagination(page),
   });
 
   const options = [
@@ -63,18 +68,19 @@ const Pacientes: React.FC = () => {
       label: 'Edit',
       onClick: (item: any) => {
         setShowPacienteModal(true);
-        pacienteService.getPacienteByDni(item.dni).then((response) => {
-          setPacienteModal({
-            dni: response.content[0].dni.toString(),
-            nombre: response.content[0].nombre,
-            apellidoPaterno: response.content[0].apellidoPaterno,
-            apellidoMaterno: response.content[0].apellidoMaterno,
-            fechaNacimiento: response.content[0].fechaNacimiento,
-            edad: response.content[0].edad,
-            sexo: response.content[0].sexo,
-            observaciones: response.content[0].observaciones,
-          });
+        let paciente = pacientesList.find((paciente) => paciente.dni === item.dni);
+        const fechaNacimiento = paciente?.fechaNacimiento ? parseISO(paciente.fechaNacimiento) : null;
+        setPacienteModal({
+          dni: paciente?.dni.toString() ?? '',
+          nombre: paciente?.nombre ?? '',
+          apellidoPaterno: paciente?.apellidoPaterno ?? '',
+          apellidoMaterno: paciente?.apellidoMaterno ?? '',
+          fechaNacimiento: fechaNacimiento ?? new Date(),
+          edad: paciente?.edad ?? 0,
+          sexo: paciente?.sexo ?? '',
+          observaciones: paciente?.observaciones ?? '',
         });
+        console.log('Paciente:', paciente);
       },
     },
     {
@@ -98,12 +104,12 @@ const Pacientes: React.FC = () => {
       },
     },
     { label: 'View', onClick: (item: any) => {
-      navigate(`/paciente/detalle/${encrypt(item.dni.toString())}`);
+      navigate(`/pacientes/detalle/${encrypt(item.dni.toString())}`);
     } },
     {
       label: 'Evaluation',
-      onClick: () => {
-        navigate(`/configuracion`);
+      onClick: (item: any) => {
+        navigate(`/configuracion/${encrypt(item.dni.toString())}`);
       },
     },
   ];
@@ -112,42 +118,41 @@ const Pacientes: React.FC = () => {
     if (value === '') {
       ListPacientes();
     } else if (selectedOption === 'dni') {
-      pacienteService.getPacienteByDni(parseInt(value)).then((response) => {
-        setPacientesList(response.content);
-        setPaginationProps({
-          currentPage: response.currentPage + 1,
-          pageSize: response.pageSize,
-          totalPages: response.totalPages,
-          totalItems: response.totalElements,
-          onPageChange: (page: number) => console.log('Page:', page),
-        });
-      });
+      setSearchNombre(undefined);
+      ListPacientes
     } else {
-      pacienteService.getPacienteByNombre(value).then((response) => {
-        setPacientesList(response.content);
-        setPaginationProps({
-          currentPage: response.currentPage + 1,
-          pageSize: response.pageSize,
-          totalPages: response.totalPages,
-          totalItems: response.totalElements,
-          onPageChange: (page: number) => console.log('Page:', page),
-        });
-      });
+      setSearchDni(undefined);
+      ListPacientes
     }
   };
 
+  const handlePagination = (page: number) => {
+    //console.log(paginationProps);
+    console.log(page);
+    setPaginationProps(prevProps => ({ ...prevProps, currentPage: page }));
+  };
+
+  React.useEffect(() => {
+  ListPacientes();
+}, [paginationProps.currentPage]);
+
   const ListPacientes = async () => {
     try {
-      const response = await pacienteService.getAllPacientes();
-      console.log('Pacientes:', response);
-      setPaginationProps({
-        currentPage: response.currentPage + 1,
-        pageSize: response.pageSize,
-        totalPages: response.totalPages,
-        totalItems: response.totalElements,
-        onPageChange: (page: number) => console.log('Page:', page),
-      });
-      setPacientesList(response.content);
+      let request: ListarPacienteRequest = {
+        page: paginationProps.currentPage - 1,
+        size: paginationProps.pageSize,
+        dni: searchDni ?? undefined,
+        nombres: searchNombre ?? undefined,
+        usuarioRegistro: undefined,
+        estadoRegistro: true
+      }
+      const response = await pacienteService.getAllPacientes(request)
+      setPaginationProps(prevProps => ({
+        ...prevProps,
+        totalPages: response.data.totalPages,
+        totalItems: response.data.totalElements,
+      }));
+      setPacientesList(response.data.content);
     } catch (error) {
       console.error('Error fetching pacientes:', error);
     }
@@ -161,12 +166,19 @@ const Pacientes: React.FC = () => {
         nombre: pacienteModal.nombre,
         apellidoPaterno: pacienteModal.apellidoPaterno,
         apellidoMaterno: pacienteModal.apellidoMaterno,
-        fechaNacimiento: pacienteModal.fechaNacimiento,
+        fechaNacimiento: format(new Date(pacienteModal.fechaNacimiento), 'yyyy-MM-dd'),
         sexo: pacienteModal.sexo,
         observaciones: pacienteModal.observaciones,
-        usuarioRegistro: JSON.parse(auth).data.username,
+        usuarioRegistro: user?.username ?? '',
       };
-      const response = await pacienteService.createPaciente(newPaciente);
+      const response = await pacienteService.createPaciente(newPaciente).then((res) => {
+        if (res.status_code !== 201) {
+          toast(`Error al crear paciente: ${res.message}`, { type: 'error', autoClose: 3000 });
+        } else {
+          toast('Paciente creado correctamente', { type: 'success', autoClose: 3000 });
+        }
+        return res;
+      });
       console.log('Paciente creado:', response);
       if (response.data) {
         setShowPacienteModal(false);
@@ -198,24 +210,17 @@ const Pacientes: React.FC = () => {
       console.error('Error fetching paciente Reniec:', error);
     }
   };
-
-  const calculateAge = (fecha: Date) => {
-    var hoy = new Date();
-    var edad = hoy.getFullYear() - fecha.getFullYear();
-    var m = hoy.getMonth() - fecha.getMonth();
-
-    if (m < 0 || (m === 0 && hoy.getDate() < fecha.getDate())) {
-      edad--;
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    if (searchNombre === '' || searchDni === '') {
+      ListPacientes();
+    } else if (selectedOption === 'dni') {
+      setSearchNombre(undefined);
+      ListPacientes();
+    } else {
+      setSearchDni(undefined);
+      ListPacientes();
     }
-
-    return edad;
-  };
-
-  const encrypt = (text: string) => {
-    return CryptoJS.HmacSHA256(
-      text,
-      '97b0c102abf5ab361b05124d6fcc2c9862d897f9472670bc343cea1491dc945b',
-    ).toString();
   }
 
   React.useEffect(() => {
@@ -227,7 +232,7 @@ const Pacientes: React.FC = () => {
       <Breadcumb pageName="Pacientes"></Breadcumb>
       <div className="flex flex-col gap-5 col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5">
         <div className="flex justify-between">
-          <div className="flex gap-3">
+          <form onSubmit={handleSubmit} className="flex gap-3">
             <Select
               options={options}
               value={selectedOption}
@@ -237,23 +242,23 @@ const Pacientes: React.FC = () => {
               <Input
                 placeholder="Buscar pacientes"
                 isSearch
-                value={search}
+                value={searchDni}
                 classSize="w-96"
                 type="number"
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearchDni(e.target.value)}
                 onSearchClick={handleSearchClick}
               />
             ) : (
               <Input
                 placeholder="Buscar pacientes"
                 isSearch
-                value={search}
+                value={searchNombre}
                 classSize="w-96"
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearchNombre(e.target.value)}
                 onSearchClick={handleSearchClick}
               />
             )}
-          </div>
+          </form>
           <Button
             text="Agregar paciente"
             onClick={() => {
@@ -263,7 +268,7 @@ const Pacientes: React.FC = () => {
                 nombre: '',
                 apellidoPaterno: '',
                 apellidoMaterno: '',
-                fechaNacimiento: '',
+                fechaNacimiento: new Date(),
                 edad: 0,
                 sexo: '',
                 observaciones: '',
@@ -293,7 +298,7 @@ const Pacientes: React.FC = () => {
                     pacienteModal.nombre === '' ||
                     pacienteModal.apellidoPaterno === '' ||
                     pacienteModal.apellidoMaterno === '' ||
-                    pacienteModal.fechaNacimiento === '' ||
+                    pacienteModal.fechaNacimiento === new Date() ||
                     pacienteModal.sexo === ''
                   }
                 >
@@ -355,21 +360,22 @@ const Pacientes: React.FC = () => {
                 />
               </div>
               <div className="grid grid-cols-4 gap-3">
-                <Input
-                  type="date"
-                  label="Fecha de nacimiento"
-                  placeholder="Fecha de nacimiento"
-                  value={pacienteModal.fechaNacimiento}
-                  classSize="col-span-2"
-                  onChange={(e) => {
+                <DatePicker
+                  label='Fecha de nacimiento'
+                  placeholder='dd/mm/yyyy'
+                  onChange={(date) => {
                     setPacienteModal({
                       ...pacienteModal,
-                      fechaNacimiento: e.target.value,
-                      edad: calculateAge(
-                        new Date(pacienteModal.fechaNacimiento),
-                      ),
-                    });
+                      fechaNacimiento: date[0],
+                      edad: differenceInYears(new Date(), date[0])
+                    })
                   }}
+                  mode='single'
+                  dateFormat='d/m/Y'
+                  className='col-span-2'
+                  inputClassName='w-full'
+                  monthSelectorType='dropdown'
+                  defaultDate={pacienteModal.fechaNacimiento}
                 />
                 <Input
                   label="Edad"

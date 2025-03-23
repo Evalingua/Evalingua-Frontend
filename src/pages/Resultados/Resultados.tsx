@@ -3,10 +3,11 @@ import Breadcumb from '../../components/Breadcrumbs/Breadcrumb';
 import Table from '../../components/Tables/Table';
 import Input from '../../components/Inputs/Input';
 import Select from '../../components/Forms/SelectGroup/Select';
-import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import Textarea from '../../components/Inputs/TextArea';
 import { useNavigate } from 'react-router-dom';
+import DatePicker from '../../components/Forms/DatePicker/DatePicker';
+import { Flip, toast } from 'react-toastify';
 
 const Resultados: React.FC = () => {
   const navigate = useNavigate();
@@ -156,7 +157,14 @@ const Resultados: React.FC = () => {
     {
       label: 'View',
       onClick: (item: any) => {
-        setShowPacienteModal(true);
+        toast('Ver detalles del paciente',{
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          transition: Flip,
+        });
+        console.log('View', item);
       },
     },
     {
@@ -171,6 +179,7 @@ const Resultados: React.FC = () => {
   return (
     <>
       <Breadcumb pageName="Resultados de Evaluación"></Breadcumb>
+      
       <div className="flex flex-col gap-5 col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5">
         <div className="flex items-end justify-between">
           <div className="flex gap-3 items-end">
@@ -186,11 +195,14 @@ const Resultados: React.FC = () => {
               onChange={(e) => setSearch(e.target.value)}
               onSearchClick={handleSearchClick}
             />
-            <Input
-              label="Fecha de evaluación"
-              placeholder="dd/mm/yyyy"
-              type="date"
-              onChange={(e) => setSearch(e.target.value)}
+            <DatePicker
+              label='Fecha de evaluación'
+              placeholder='dd/mm/yyyy'
+              onChange={(date) => console.log(date)}
+              mode='range'
+              dateFormat='Y-m-d'
+              wrapperClassName='w-64'
+              inputClassName='w-full text-sm'
             />
           </div>
           <Modal

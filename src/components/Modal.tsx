@@ -81,7 +81,7 @@ const Modal: React.FC<ModalProps> = ({
             className={`flex items-center justify-between border-b border-stroke p-4 dark:border-strokedark ${headerClassName}`}
           >
             {title && (
-              <h3 className="text-title-sm md:text-title-md  font-medium text-black dark:text-white">
+              <h3 className="text-title-sm md:text-title-md font-bold text-primary dark:text-white">
                 {title}
               </h3>
             )}
@@ -112,7 +112,7 @@ const Modal: React.FC<ModalProps> = ({
         {/* Footer */}
         {footer && (
           <div
-            className={`border-t border-stroke p-4 dark:border-strokedark ${footerClassName}`}
+            className={`border-t border-stroke p-3 dark:border-strokedark ${footerClassName}`}
           >
             {footer}
           </div>
