@@ -7,6 +7,7 @@ export const configs = [
             {
                 "id": 1,
                 "segmento": "Nasales",
+                "keyname": "nasales",
                 "fonemas": [
                     { "id": 1, "value": "m", "label": "/m/", "selected": true },
                     { "id": 2, "value": "n", "label": "/n/", "selected": true },
@@ -16,6 +17,7 @@ export const configs = [
             {
                 "id": 2,
                 "segmento": "Oclusivas sordas",
+                "keyname": "oclusivas_sordas",
                 "fonemas": [
                     { "id": 1, "value": "p", "label": "/p/", "selected": true },
                     { "id": 2, "value": "t", "label": "/t/", "selected": true },
@@ -25,6 +27,7 @@ export const configs = [
             {
                 "id": 3,
                 "segmento": "Oclusivas sonoras",
+                "keyname": "oclusivas_sonoras",
                 "fonemas": [
                     { "id": 1, "value": "b", "label": "/b/", "selected": true },
                     { "id": 2, "value": "d", "label": "/d/", "selected": false },
@@ -34,6 +37,7 @@ export const configs = [
             {
                 "id": 4,
                 "segmento": "Laterales",
+                "keyname": "laterales",
                 "fonemas": [
                     { "id": 1, "value": "l", "label": "/l/", "selected": true },
                     { "id": 2, "value": "ll", "label": "/ll/", "selected": false }
@@ -42,6 +46,7 @@ export const configs = [
             {
                 "id": 5,
                 "segmento": "Fricativas",
+                "keyname": "fricativas",
                 "fonemas": [
                     { "id": 1, "value": "f", "label": "/f/", "selected": true },
                     { "id": 2, "value": "s", "label": "/s/", "selected": false },
@@ -53,6 +58,7 @@ export const configs = [
             {
                 "id": 6,
                 "segmento": "Africadas",
+                "keyname": "africadas",
                 "fonemas": [
                     { "id": 1, "value": "ch", "label": "/ch/", "selected": true }
                 ]
@@ -60,6 +66,7 @@ export const configs = [
             {
                 "id": 7,
                 "segmento": "Róticas Percusivas",
+                "keyname": "roticas_percusivas",
                 "fonemas": [
                     { "id": 1, "value": "r", "label": "/r/", "selected": false }
                 ]
@@ -67,6 +74,7 @@ export const configs = [
             {
                 "id": 8,
                 "segmento": "Róticas Vibrantes",
+                "keyname": "roticas_vibrantes",
                 "fonemas": [
                     { "id": 1, "value": "rr", "label": "/rr/", "selected": false }
                 ]
@@ -74,6 +82,7 @@ export const configs = [
             {
                 "id": 9,
                 "segmento": "Grupos Consonanticos Laterales",
+                "keyname": "grupos_consonanticos_laterales",
                 "fonemas": [
                     { "id": 1, "value": "bl", "label": "/bl/", "selected": false },
                     { "id": 2, "value": "pl", "label": "/pl/", "selected": false },
@@ -85,6 +94,7 @@ export const configs = [
             {
                 "id": 10,
                 "segmento":"Grupos Consonanticos Centrales",
+                "keyname": "grupos_consonanticos_centrales",
                 "fonemas": [
                     { "id": 1, "value": "br", "label": "/br/", "selected": false },
                     { "id": 2, "value": "pr", "label": "/pr/", "selected": false },
@@ -98,6 +108,7 @@ export const configs = [
             {
                 "id": 11,
                 "segmento": "Vocales",
+                "keyname": "vocales",
                 "fonemas": [
                     { "id": 1, "value": "a", "label": "/a/", "selected": false },
                     { "id": 2, "value": "e", "label": "/e/", "selected": false },
@@ -109,6 +120,7 @@ export const configs = [
             {
                 "id": 12,
                 "segmento": "Diptongos",
+                "keyname": "diptongos",
                 "fonemas": [
                     { "id": 1, "value": "ua", "label": "/ua/", "selected": true },
                     { "id": 2, "value": "ue", "label": "/ue/", "selected": true },
@@ -128,6 +140,7 @@ export const configs = [
             {
                 "id": 1,
                 "segmento": "Nasales",
+                "keyname": "nasales",
                 "fonemas": [
                     { "id": 1, "value": "m", "label": "/m/", "selected": true },
                     { "id": 2, "value": "n", "label": "/n/", "selected": true },
@@ -137,6 +150,7 @@ export const configs = [
             {
                 "id": 2,
                 "segmento": "Oclusivas sordas",
+                "keyname": "oclusivas_sordas",
                 "fonemas": [
                     { "id": 1, "value": "p", "label": "/p/", "selected": true },
                     { "id": 2, "value": "t", "label": "/t/", "selected": true },
@@ -146,6 +160,7 @@ export const configs = [
             {
                 "id": 3,
                 "segmento": "Oclusivas sonoras",
+                "keyname": "oclusivas_sonoras",
                 "fonemas": [
                     { "id": 1, "value": "b", "label": "/b/", "selected": true },
                     { "id": 2, "value": "d", "label": "/d/", "selected": true },
@@ -155,6 +170,7 @@ export const configs = [
             {
                 "id": 4,
                 "segmento": "Laterales",
+                "keyname": "laterales",
                 "fonemas": [
                     { "id": 1, "value": "l", "label": "/l/", "selected": true },
                     { "id": 2, "value": "ll", "label": "/ll/", "selected": false }
@@ -163,6 +179,7 @@ export const configs = [
             {
                 "id": 5,
                 "segmento": "Fricativas",
+                "keyname": "fricativas",
                 "fonemas": [
                     { "id": 1, "value": "f", "label": "/f/", "selected": true },
                     { "id": 2, "value": "s", "label": "/s/", "selected": false },
@@ -174,6 +191,7 @@ export const configs = [
             {
                 "id": 6,
                 "segmento": "Africadas",
+                "keyname": "africadas",
                 "fonemas": [
                     { "id": 1, "value": "ch", "label": "/ch/", "selected": true }
                 ]
@@ -181,6 +199,7 @@ export const configs = [
             {
                 "id": 7,
                 "segmento": "Róticas Percusivas",
+                "keyname": "roticas_percusivas",
                 "fonemas": [
                     { "id": 1, "value": "r", "label": "/r/", "selected": true }
                 ]
@@ -188,6 +207,7 @@ export const configs = [
             {
                 "id": 8,
                 "segmento": "Róticas Vibrantes",
+                "keyname": "roticas_vibrantes",
                 "fonemas": [
                     { "id": 1, "value": "rr", "label": "/rr/", "selected": false }
                 ]
@@ -195,6 +215,7 @@ export const configs = [
             {
                 "id": 9,
                 "segmento": "Grupos Consonanticos Laterales",
+                "keyname": "grupos_consonanticos_laterales",
                 "fonemas": [
                     { "id": 1, "value": "bl", "label": "/bl/", "selected": true },
                     { "id": 2, "value": "pl", "label": "/pl/", "selected": true },
@@ -206,6 +227,7 @@ export const configs = [
             {
                 "id": 10,
                 "segmento":"Grupos Consonanticos Centrales",
+                "keyname": "grupos_consonanticos_centrales",
                 "fonemas": [
                     { "id": 1, "value": "br", "label": "/br/", "selected": false },
                     { "id": 2, "value": "pr", "label": "/pr/", "selected": false },
@@ -219,6 +241,7 @@ export const configs = [
             {
                 "id": 11,
                 "segmento": "Vocales",
+                "keyname": "vocales",
                 "fonemas": [
                     { "id": 1, "value": "a", "label": "/a/", "selected": false },
                     { "id": 2, "value": "e", "label": "/e/", "selected": false },
@@ -230,6 +253,7 @@ export const configs = [
             {
                 "id": 12,
                 "segmento": "Diptongos",
+                "keyname": "diptongos",
                 "fonemas": [
                     { "id": 1, "value": "ua", "label": "/ua/", "selected": true },
                     { "id": 2, "value": "ue", "label": "/ue/", "selected": true },
@@ -249,6 +273,7 @@ export const configs = [
             {
                 "id": 1,
                 "segmento": "Nasales",
+                "keyname": "nasales",
                 "fonemas": [
                     { "id": 1, "value": "m", "label": "/m/", "selected": true },
                     { "id": 2, "value": "n", "label": "/n/", "selected": true },
@@ -258,6 +283,7 @@ export const configs = [
             {
                 "id": 2,
                 "segmento": "Oclusivas sordas",
+                "keyname": "oclusivas_sordas",
                 "fonemas": [
                     { "id": 1, "value": "p", "label": "/p/", "selected": true },
                     { "id": 2, "value": "t", "label": "/t/", "selected": true },
@@ -267,6 +293,7 @@ export const configs = [
             {
                 "id": 3,
                 "segmento": "Oclusivas sonoras",
+                "keyname": "oclusivas_sonoras",
                 "fonemas": [
                     { "id": 1, "value": "b", "label": "/b/", "selected": true },
                     { "id": 2, "value": "d", "label": "/d/", "selected": true },
@@ -276,6 +303,7 @@ export const configs = [
             {
                 "id": 4,
                 "segmento": "Laterales",
+                "keyname": "laterales",
                 "fonemas": [
                     { "id": 1, "value": "l", "label": "/l/", "selected": true },
                     { "id": 2, "value": "ll", "label": "/ll/", "selected": true }
@@ -284,6 +312,7 @@ export const configs = [
             {
                 "id": 5,
                 "segmento": "Fricativas",
+                "keyname": "fricativas",
                 "fonemas": [
                     { "id": 1, "value": "f", "label": "/f/", "selected": true },
                     { "id": 2, "value": "s", "label": "/s/", "selected": true },
@@ -295,6 +324,7 @@ export const configs = [
             {
                 "id": 6,
                 "segmento": "Africadas",
+                "keyname": "africadas",
                 "fonemas": [
                     { "id": 1, "value": "ch", "label": "/ch/", "selected": true }
                 ]
@@ -302,6 +332,7 @@ export const configs = [
             {
                 "id": 7,
                 "segmento": "Róticas Percusivas",
+                "keyname": "roticas_percusivas",
                 "fonemas": [
                     { "id": 1, "value": "r", "label": "/r/", "selected": true }
                 ]
@@ -309,6 +340,7 @@ export const configs = [
             {
                 "id": 8,
                 "segmento": "Róticas Vibrantes",
+                "keyname": "roticas_vibrantes",
                 "fonemas": [
                     { "id": 1, "value": "rr", "label": "/rr/", "selected": true }
                 ]
@@ -316,6 +348,7 @@ export const configs = [
             {
                 "id": 9,
                 "segmento": "Grupos Consonanticos Laterales",
+                "keyname": "grupos_consonanticos_laterales",
                 "fonemas": [
                     { "id": 1, "value": "bl", "label": "/bl/", "selected": true },
                     { "id": 2, "value": "pl", "label": "/pl/", "selected": true },
@@ -327,6 +360,7 @@ export const configs = [
             {
                 "id": 10,
                 "segmento":"Grupos Consonanticos Centrales",
+                "keyname": "grupos_consonanticos_centrales",
                 "fonemas": [
                     { "id": 1, "value": "br", "label": "/br/", "selected": true },
                     { "id": 2, "value": "pr", "label": "/pr/", "selected": true },
@@ -340,6 +374,7 @@ export const configs = [
             {
                 "id": 11,
                 "segmento": "Vocales",
+                "keyname": "vocales",
                 "fonemas": [
                     { "id": 1, "value": "a", "label": "/a/", "selected": false },
                     { "id": 2, "value": "e", "label": "/e/", "selected": false },
@@ -351,6 +386,7 @@ export const configs = [
             {
                 "id": 12,
                 "segmento": "Diptongos",
+                "keyname": "diptongos",
                 "fonemas": [
                     { "id": 1, "value": "ua", "label": "/ua/", "selected": true },
                     { "id": 2, "value": "ue", "label": "/ue/", "selected": true },

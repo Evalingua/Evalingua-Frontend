@@ -5,6 +5,7 @@ export interface TipoConfiguracion {
     valores: {
         id: number;
         segmento: string;
+        keyname: string;
         fonemas: {
             id: number;
             value: string;

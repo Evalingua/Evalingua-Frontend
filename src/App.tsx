@@ -5,15 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
 import SignIn from './pages/Authentication/SignIn';
-import SignUp from './pages/Authentication/SignUp';
-import Chart from './pages/Chart';
-import FormElements from './pages/Form/FormElements';
-import FormLayout from './pages/Form/FormLayout';
-import Profile from './pages/Profile';
-import Settings from './pages/Settings';
-import Tables from './pages/Tables';
-import Alerts from './pages/UiElements/Alerts';
-import Buttons from './pages/UiElements/Buttons';
+import Settings from './pages/Ajustes';
 import DefaultLayout from './layout/DefaultLayout';
 import AuthLayout from './layout/AuthLayout';
 import {AuthGuard} from './guards/AuthGuard';
@@ -21,8 +13,11 @@ import NotFound from './pages/NotFound';
 import Inicio from './pages/Inicio/Inicio';
 import Pacientes from './pages/Pacientes/Pacientes';
 import Configuracion from './pages/Configuracion/Configuracion';
-import Resultados from './pages/Resultados/Resultados';
+import Evaluaciones from './pages/Evaluaciones/Evaluaciones';
 import PacienteDetalle from './pages/Pacientes/PacienteDetalle';
+import Resultados from './pages/Evaluaciones/Resultados';
+import Estadisticas from './pages/Estadisticas/Estadisticas';
+import Perfiles from './pages/Perfiles/Perfiles';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -52,16 +47,6 @@ function App() {
           </AuthLayout>
         }
       />
-      <Route
-        path="/auth/signup"
-        element={
-          <AuthLayout>
-            <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-            <SignUp />
-          </AuthLayout>
-        }
-      />
-
       {/* Rutas protegidas */}
       <Route
         index
@@ -86,100 +71,45 @@ function App() {
         }
       />
       <Route
-            path='pacientes/detalle/:idEncriptado'
-            element={
-              <AuthGuard>
-                <DefaultLayout>
-                  <PageTitle title="Detalle del paciente | Evalingua" />
-                  <PacienteDetalle />
-                </DefaultLayout>
-              </AuthGuard>
-            }
-          />
+          path='pacientes/detalle/:idEncriptado'
+          element={
+            <AuthGuard>
+              <DefaultLayout>
+                <PageTitle title="Detalle del paciente | Evalingua" />
+                <PacienteDetalle />
+              </DefaultLayout>
+            </AuthGuard>
+          }
+        />
       <Route
-        path="/profile"
+        path="/ajustes"
         element={
           <AuthGuard>
             <DefaultLayout>
-              <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Profile />
-            </DefaultLayout>
-          </AuthGuard>
-        }
-      />
-      <Route
-        path="/forms/form-elements"
-        element={
-          <AuthGuard>
-            <DefaultLayout>
-              <PageTitle title="Form Elements | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <FormElements />
-            </DefaultLayout>
-          </AuthGuard>
-        }
-      />
-      <Route
-        path="/forms/form-layout"
-        element={
-          <AuthGuard>
-            <DefaultLayout>
-              <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <FormLayout />
-            </DefaultLayout>
-          </AuthGuard>
-        }
-      />
-      <Route
-        path="/tables"
-        element={
-          <AuthGuard>
-            <DefaultLayout>
-              <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Tables />
-            </DefaultLayout>
-          </AuthGuard>
-        }
-      />
-      <Route
-        path="/settings"
-        element={
-          <AuthGuard>
-            <DefaultLayout>
-              <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <PageTitle title="Ajustes | Evalingua " />
               <Settings />
             </DefaultLayout>
           </AuthGuard>
         }
       />
       <Route
-        path="/chart"
+        path="/perfiles"
         element={
-          <AuthGuard>
+          <AuthGuard allowedRoles={['ADMIN']}>
             <DefaultLayout>
-              <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Chart />
+              <PageTitle title="Perfiles | Evalingua" />
+              <Perfiles />
             </DefaultLayout>
           </AuthGuard>
         }
       />
       <Route
-        path="/ui/alerts"
+        path="/estadisticas"
         element={
           <AuthGuard>
             <DefaultLayout>
-              <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Alerts />
-            </DefaultLayout>
-          </AuthGuard>
-        }
-      />
-      <Route
-        path="/ui/buttons"
-        element={
-          <AuthGuard>
-            <DefaultLayout>
-              <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Buttons />
+              <PageTitle title="Estadisticas | Evalingua" />
+              <Estadisticas />
             </DefaultLayout>
           </AuthGuard>
         }
@@ -196,8 +126,19 @@ function App() {
         }
       />
       <Route
-        path="/resultados"
+        path="/evaluaciones"
         element={
+          <AuthGuard>
+            <DefaultLayout>
+              <PageTitle title="Evaluaciones | Evalingua" />
+              <Evaluaciones />
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path='resultados'
+          element={
           <AuthGuard>
             <DefaultLayout>
               <PageTitle title="Resultados | Evalingua" />
@@ -206,6 +147,7 @@ function App() {
           </AuthGuard>
         }
       />
+      {/* Rutas de error */}
       <Route
         path="*"
         element={

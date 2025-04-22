@@ -55,7 +55,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         flatpickrInstance.destroy();
       };
     }
-  }, [mode, isStatic, monthSelectorType, dateFormat, prevArrow, nextArrow, onChange]);
+  }, [mode, isStatic, monthSelectorType, defaultDate, dateFormat, prevArrow, nextArrow, onChange]);
 
   return (
     <div className={`${className}`}>

@@ -8,7 +8,6 @@ const SignIn: React.FC = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -21,8 +20,7 @@ const SignIn: React.FC = () => {
       await login(username, password);
       navigate((location.state as any)?.from ?.pathname || '/');
     } catch (e) {
-      setError(`Usuario o contraseña incorrectos: ${e}`);
-      toast(error, { type: 'error', autoClose: 3000,  });
+      toast(`${e}`, { type: 'error', autoClose: 3000,  });
       setLoading(false);
     }
   }

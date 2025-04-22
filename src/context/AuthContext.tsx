@@ -126,11 +126,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       if (!response.ok) {
-        throw new Error('Login failed');
+        const errorData = await response.json();
+        throw new Error(`${errorData.message}`);
       }
 
       const data: BaseResponse<AuthResponse> = await response.json();
-      localStorage.setItem('token', data.data.token); // Solo guardamos el token
+      console.log('Login response:', data);
+      localStorage.setItem('token', data.data.token);
       dispatch({ type: 'LOGIN_SUCCESS', payload: { token: data.data.token.toString() } });
     } catch (error) {
       console.error('Login error:', error);

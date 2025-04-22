@@ -6,7 +6,6 @@ import Select from '../../components/Forms/SelectGroup/Select';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import { PacienteService } from '../../services/paciente/PacienteService';
-import { ReniecService } from '../../services/paciente/ReniecService';
 import Textarea from '../../components/Inputs/TextArea';
 import { useNavigate } from 'react-router-dom';
 import { PacienteRequest, PacienteResponse, ListarPacienteRequest } from '../../types/paciente';
@@ -18,7 +17,6 @@ import { toast } from 'react-toastify';
 
 const Pacientes: React.FC = () => {
   const pacienteService = new PacienteService();
-  const reniecService = new ReniecService();
   const navigate = useNavigate();
   const {user} = useAuth();
 
@@ -133,12 +131,12 @@ const Pacientes: React.FC = () => {
   };
 
   React.useEffect(() => {
-  ListPacientes();
-}, [paginationProps.currentPage]);
+    ListPacientes();
+  }, [paginationProps.currentPage]);
 
   const ListPacientes = async () => {
     try {
-      let request: ListarPacienteRequest = {
+      const request: ListarPacienteRequest = {
         page: paginationProps.currentPage - 1,
         size: paginationProps.pageSize,
         dni: searchDni ?? undefined,
@@ -155,6 +153,7 @@ const Pacientes: React.FC = () => {
       setPacientesList(response.data.content);
     } catch (error) {
       console.error('Error fetching pacientes:', error);
+      toast(`Error al crear paciente: ${error}`, { type: 'error', autoClose: 3000 });
     }
   };
 
@@ -202,14 +201,6 @@ const Pacientes: React.FC = () => {
     }
   };
 
-  const SearchPacienteReniec = async (dni: string) => {
-    try {
-      const response = await reniecService.getPatientFromReniec(dni);
-      console.log('Paciente Reniec:', response);
-    } catch (error) {
-      console.error('Error fetching paciente Reniec:', error);
-    }
-  };
   const handleSubmit = (event: any) => {
     event.preventDefault();
     if (searchNombre === '' || searchDni === '') {
@@ -222,10 +213,6 @@ const Pacientes: React.FC = () => {
       ListPacientes();
     }
   }
-
-  React.useEffect(() => {
-    ListPacientes();
-  }, []);
 
   return (
     <>
@@ -314,11 +301,9 @@ const Pacientes: React.FC = () => {
                   placeholder="DNI"
                   value={pacienteModal.dni}
                   maxLength={8}
-                  isSearch
                   onChange={(e) =>
                     setPacienteModal({ ...pacienteModal, dni: e.target.value })
                   }
-                  onSearchClick={(value: string) => SearchPacienteReniec(value)}
                 />
                 <Input
                   label="Nombre"

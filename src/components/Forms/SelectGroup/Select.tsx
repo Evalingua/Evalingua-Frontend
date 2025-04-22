@@ -12,6 +12,7 @@ interface SelectProps {
   value: string;
   onChange: (value: string) => void;
   disabled?: boolean;
+  className?: string;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -21,30 +22,60 @@ const Select: React.FC<SelectProps> = ({
   value,
   onChange,
   disabled = false,
+  className = '',
 }) => {
   const [isOptionSelected, setIsOptionSelected] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setIsOptionSelected(true);
     onChange(event.target.value);
   };
 
+  // Referencia al elemento select
+  const selectRef = React.useRef<HTMLSelectElement>(null);
+
+  // Función para abrir el select al hacer clic en el wrapper o en el icono
+  const handleWrapperClick = (event: React.MouseEvent) => {
+    if (selectRef.current && !disabled) {
+      // Si el clic fue en el SVG o su contenedor, enfocamos el select
+      if (!event.target || !(event.target as HTMLElement).closest('select')) {
+        event.preventDefault();
+        selectRef.current.focus();
+        // En algunos navegadores, el focus no es suficiente para abrir el dropdown
+        // Esta técnica simula un clic en el select
+        const clickEvent = new MouseEvent('mousedown', {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        });
+        selectRef.current.dispatchEvent(clickEvent);
+      }
+    }
+  };
+
   return (
-    <div className="">
+    <div className={`${className}`}>
       {label && (
         <label className="mb-1 block text-black text-xs md:text-sm dark:text-white">
           {label}
         </label>
       )}
 
-      <div className="relative z-20 bg-transparent dark:bg-form-input">
+      <div 
+        className="relative z-20 bg-transparent dark:bg-form-input cursor-pointer"
+        onClick={handleWrapperClick}
+      >
         <select
+          ref={selectRef}
           value={value}
           onChange={handleSelection}
           disabled={disabled}
-          className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 md:py-3 px-3 text-xs md:text-sm outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          className={`relative z-20 w-full appearance-none rounded border disabled:bg-slate-100 border-stroke bg-transparent py-2 md:py-3 px-3 text-xs md:text-sm outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary cursor-pointer ${
             isOptionSelected ? 'text-black dark:text-white' : ''
-          }`}
+          } ${disabled ? 'cursor-not-allowed opacity-70' : ''}`}
         >
           <option value="" disabled className="text-body dark:text-bodydark">
             {placeholder}
@@ -53,16 +84,16 @@ const Select: React.FC<SelectProps> = ({
             <option
               key={index}
               value={option.value}
-              className="text-body dark:text-bodydark"
+              className="text-black dark:text-white"
             >
               {option.label}
             </option>
           ))}
         </select>
 
-        <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
+        <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2 pointer-events-none">
           <svg
-            className="fill-current"
+            className={`fill-current transition-transform duration-200 ${isFocused ? 'transform rotate-180' : ''}`}
             width="24"
             height="24"
             viewBox="0 0 24 24"
