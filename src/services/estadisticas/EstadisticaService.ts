@@ -12,7 +12,7 @@ export class EstadisticaService {
     }
 
     async getEstadisticasGlobales(): Promise<BaseResponse<GraficoDTO>> {
-        const response: AxiosResponse<BaseResponse<GraficoDTO>> = await api.get(`${this.BASE_URL}/grafico-global`);
+        const response: AxiosResponse<BaseResponse<GraficoDTO>> = await api.get(`${this.BASE_URL}/grafico-general`);
         return response.data;
     }
 
