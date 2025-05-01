@@ -51,8 +51,6 @@ export const configs = [
                     { "id": 1, "value": "f", "label": "/f/", "selected": true },
                     { "id": 2, "value": "s", "label": "/s/", "selected": false },
                     { "id": 3, "value": "j", "label": "/j/", "selected": false },
-                    { "id": 4, "value": "z", "label": "/z/", "selected": false },
-                    { "id": 5, "value": "x", "label": "/x/", "selected": false }
                 ]
             },
             {
@@ -79,7 +77,7 @@ export const configs = [
                     { "id": 1, "value": "rr", "label": "/rr/", "selected": false }
                 ]
             },
-            {
+            /* {
                 "id": 9,
                 "segmento": "Grupos Consonanticos Laterales",
                 "keyname": "grupos_consonanticos_laterales",
@@ -104,21 +102,9 @@ export const configs = [
                     { "id": 6, "value": "tr", "label": "/tr/", "selected": false },
                     { "id": 7, "value": "dr", "label": "/dr/", "selected": false }
                 ]
-            },
+            }, */
             {
                 "id": 11,
-                "segmento": "Vocales",
-                "keyname": "vocales",
-                "fonemas": [
-                    { "id": 1, "value": "a", "label": "/a/", "selected": false },
-                    { "id": 2, "value": "e", "label": "/e/", "selected": false },
-                    { "id": 3, "value": "i", "label": "/i/", "selected": false },
-                    { "id": 4, "value": "o", "label": "/o/", "selected": false },
-                    { "id": 5, "value": "u", "label": "/u/", "selected": false }
-                ]
-            },
-            {
-                "id": 12,
                 "segmento": "Diptongos",
                 "keyname": "diptongos",
                 "fonemas": [
@@ -183,9 +169,7 @@ export const configs = [
                 "fonemas": [
                     { "id": 1, "value": "f", "label": "/f/", "selected": true },
                     { "id": 2, "value": "s", "label": "/s/", "selected": false },
-                    { "id": 3, "value": "j", "label": "/j/", "selected": true },
-                    { "id": 4, "value": "z", "label": "/z/", "selected": false },
-                    { "id": 5, "value": "x", "label": "/x/", "selected": false }
+                    { "id": 3, "value": "j", "label": "/j/", "selected": true }
                 ]
             },
             {
@@ -212,7 +196,7 @@ export const configs = [
                     { "id": 1, "value": "rr", "label": "/rr/", "selected": false }
                 ]
             },
-            {
+            /* {
                 "id": 9,
                 "segmento": "Grupos Consonanticos Laterales",
                 "keyname": "grupos_consonanticos_laterales",
@@ -237,21 +221,9 @@ export const configs = [
                     { "id": 6, "value": "tr", "label": "/tr/", "selected": false },
                     { "id": 7, "value": "dr", "label": "/dr/", "selected": false }
                 ]
-            },
+            }, */
             {
                 "id": 11,
-                "segmento": "Vocales",
-                "keyname": "vocales",
-                "fonemas": [
-                    { "id": 1, "value": "a", "label": "/a/", "selected": false },
-                    { "id": 2, "value": "e", "label": "/e/", "selected": false },
-                    { "id": 3, "value": "i", "label": "/i/", "selected": false },
-                    { "id": 4, "value": "o", "label": "/o/", "selected": false },
-                    { "id": 5, "value": "u", "label": "/u/", "selected": false }
-                ]
-            },
-            {
-                "id": 12,
                 "segmento": "Diptongos",
                 "keyname": "diptongos",
                 "fonemas": [
@@ -316,9 +288,7 @@ export const configs = [
                 "fonemas": [
                     { "id": 1, "value": "f", "label": "/f/", "selected": true },
                     { "id": 2, "value": "s", "label": "/s/", "selected": true },
-                    { "id": 3, "value": "j", "label": "/j/", "selected": true },
-                    { "id": 4, "value": "z", "label": "/z/", "selected": false },
-                    { "id": 5, "value": "x", "label": "/x/", "selected": false }
+                    { "id": 3, "value": "j", "label": "/j/", "selected": true }
                 ]
             },
             {
@@ -345,7 +315,7 @@ export const configs = [
                     { "id": 1, "value": "rr", "label": "/rr/", "selected": true }
                 ]
             },
-            {
+           /*  {
                 "id": 9,
                 "segmento": "Grupos Consonanticos Laterales",
                 "keyname": "grupos_consonanticos_laterales",
@@ -370,21 +340,9 @@ export const configs = [
                     { "id": 6, "value": "tr", "label": "/tr/", "selected": true },
                     { "id": 7, "value": "dr", "label": "/dr/", "selected": true }
                 ]
-            },
+            }, */
             {
                 "id": 11,
-                "segmento": "Vocales",
-                "keyname": "vocales",
-                "fonemas": [
-                    { "id": 1, "value": "a", "label": "/a/", "selected": false },
-                    { "id": 2, "value": "e", "label": "/e/", "selected": false },
-                    { "id": 3, "value": "i", "label": "/i/", "selected": false },
-                    { "id": 4, "value": "o", "label": "/o/", "selected": false },
-                    { "id": 5, "value": "u", "label": "/u/", "selected": false }
-                ]
-            },
-            {
-                "id": 12,
                 "segmento": "Diptongos",
                 "keyname": "diptongos",
                 "fonemas": [
