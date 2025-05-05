@@ -16,6 +16,7 @@ const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
   token: null,
+  isLoading: true
 };
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -23,10 +24,16 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL;
 type AuthAction =
   | { type: 'LOGIN_SUCCESS'; payload: { token: string } }
   | { type: 'LOGOUT' }
-  | { type: 'TOKEN_INVALID' };
+  | { type: 'TOKEN_INVALID' }
+  | { type: 'AUTH_LOADING' }
+  | { type: 'AUTH_CHECKED' };
 
 function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
+    case 'AUTH_LOADING':
+      return { ...state, isLoading: true };
+    case 'AUTH_CHECKED':
+      return { ...state, isLoading: false };
     case 'LOGIN_SUCCESS': {
       // Decodificar el token para extraer el username y el rol
       const decodedToken = jwtDecode(action.payload.token) as {
@@ -41,6 +48,7 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
           role: decodedToken.role,
         },
         token: action.payload.token,
+        isLoading: false,
       };
     }
     case 'LOGOUT':
@@ -76,8 +84,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Función para verificar el estado de autenticación
   const checkAuthStatus = async (): Promise<boolean> => {
-    const token = localStorage.getItem('token'); // Solo guardamos el token
-    if (!token) return false;
+    dispatch({ type: 'AUTH_LOADING' });
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      dispatch({ type: 'AUTH_CHECKED' });
+      return false;
+    }
 
     try {
       const isValid = await validateToken(token);
@@ -85,22 +98,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       if (!isValid) {
         dispatch({ type: 'TOKEN_INVALID' });
         localStorage.removeItem('token');
+        dispatch({ type: 'AUTH_CHECKED' });
         return false;
       }
 
-      if (!state.isAuthenticated) {
-        dispatch({ type: 'LOGIN_SUCCESS', payload: { token } });
-      }
-
+      dispatch({ type: 'LOGIN_SUCCESS', payload: { token } });
+      dispatch({ type: 'AUTH_CHECKED' });
       return true;
     } catch (error) {
       console.error('Auth status check error:', error);
       dispatch({ type: 'TOKEN_INVALID' });
       localStorage.removeItem('token');
+      dispatch({ type: 'AUTH_CHECKED' });
       return false;
     }
   };
-
+  
   useEffect(() => {
     // Verificar token al cargar y periódicamente
     const validateSession = async () => {

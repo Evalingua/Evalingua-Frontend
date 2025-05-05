@@ -14,4 +14,5 @@ export interface AuthState {
         role: Role;
     } | null;
     token: string | null;
+    isLoading: boolean;
 }
