@@ -24,6 +24,8 @@ const Inicio: React.FC = () => {
   const [proximasEvaluaciones, setProximasEvaluaciones] = React.useState<ProximaEvaluacionResponse[]>([]);
   const [graficoGlobal, setGraficoGlobal] = React.useState<GraficoDTO>();
   const [showPacienteModal, setShowPacienteModal] = React.useState<boolean>(false);
+  const [loadingTable, setLoadingTable] = React.useState<boolean>(true);
+  const [loadingResultados, setLoadingResultados] = React.useState<boolean>(true);
   const [pacienteModal, setPacienteModal] = React.useState({
     dni: '',
     nombre: '',
@@ -71,6 +73,7 @@ const Inicio: React.FC = () => {
       const response = await evaluacionService.getProximasEvaluaciones();
       if (response.status_code === 200) {
         setProximasEvaluaciones(response.data);
+        setLoadingTable(false);
       } else {
         toast(`Error: ${response.message}`, { type: 'error', autoClose: 3000 });
       }
@@ -84,6 +87,7 @@ const Inicio: React.FC = () => {
       const response = await estadisticaService.getEstadisticasGlobales();
       if (response.status_code === 200) {
         setGraficoGlobal(response.data);
+        setLoadingResultados(false);
       } else {
         toast(`Error: ${response.message}`, { type: 'error', autoClose: 3000 });
       }
@@ -111,7 +115,7 @@ const Inicio: React.FC = () => {
       <div className="mt-4 h-full grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         <div className="flex flex-wrap items-center justify-between gap-5 col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-18">
           <div className="flex flex-col gap-2">
-            <h2 className="font-bold text-lg text-black">Bienvenido a Evalingua {user?.username}</h2>
+            <h2 className="font-bold text-lg text-black dark:text-white">Bienvenido a Evalingua {user?.username}</h2>
             <span className="text-sm text-slate-500 dark:text-slate-400">
               Evalingua, la plataforma de evaluación fonética-fonológica.
             </span>
@@ -141,48 +145,10 @@ const Inicio: React.FC = () => {
               Agregar paciente
             </h3>
           </button>
-          {/* <button className="bg-sky_slate/40 dark:bg-sky_slate/30 p-5 w-fit rounded-lg flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 32 32"
-              className="text-slate_blue dark:text-white"
-            >
-              <path
-                fill="currentColor"
-                d="m29.7 19.3l-3-3c-.4-.4-1-.4-1.4 0L16 25.6V30h4.4l9.3-9.3c.4-.4.4-1 0-1.4M19.6 28H18v-1.6l5-5l1.6 1.6zm6.4-6.4L24.4 20l1.6-1.6l1.6 1.6zM10 23h2v2h-2zm4-5h4v2h-4zm-4 0h2v2h-2zm4-5h8v2h-8zm-4 0h2v2h-2z"
-              />
-              <path
-                fill="currentColor"
-                d="M7 28V7h3v3h12V7h3v6h2V7c0-1.1-.9-2-2-2h-3V4c0-1.1-.9-2-2-2h-8c-1.1 0-2 .9-2 2v1H7c-1.1 0-2 .9-2 2v21c0 1.1.9 2 2 2h5v-2zm5-24h8v4h-8z"
-              />
-            </svg>
-            <h3 className="text-slate_blue font-bold dark:text-white">
-              Ver resultados
-            </h3>
-          </button>
-          <button className="bg-sky_slate/40 dark:bg-sky_slate/30 p-5 w-fit rounded-lg flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              className="text-slate_blue dark:text-white"
-            >
-              <path
-                fill="currentColor"
-                d="M21 3H3a2 2 0 0 0-2 2v3h2V5h18v14h-7v2h7a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2M1 18v3h3a3 3 0 0 0-3-3m0-4v2a5 5 0 0 1 5 5h2a7 7 0 0 0-7-7m0-4v2a9 9 0 0 1 9 9h2c0-6.08-4.93-11-11-11m10 1.09v2L14.5 15l3.5-1.91v-2L14.5 13zM14.5 6L9 9l5.5 3L20 9z"
-              />
-            </svg>
-            <h3 className="text-slate_blue font-bold dark:text-white">
-              Ver tutorial de uso
-            </h3>
-          </button> */}
         </div>
         <div className="flex flex-col gap-5 col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5">
           <h2 className="font-bold text-lg">Proximas evaluaciones</h2>
-          <Table columns={columns} data={proximasEvaluaciones} />
+          <Table columns={columns} data={proximasEvaluaciones} loading={loadingTable}/>
         </div>
         <div className="flex flex-col gap-5 col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-7">
           <ChartArea
@@ -192,6 +158,7 @@ const Inicio: React.FC = () => {
             legendPosition="top"
             height={300}
             max_value={80}
+            loading={loadingResultados}
           />
         </div>
       </div>

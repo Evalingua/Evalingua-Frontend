@@ -15,6 +15,7 @@ const Perfiles: React.FC = () => {
     const [selectedOption, setSelectedOption] = React.useState<string>('nombre');
     const [selectedEstado, setSelectedEstado] = React.useState<string>('TODOS');
     const [usuariosList, setUsuariosList] = React.useState<any[]>([]);
+    const [loading, setLoading] = React.useState<boolean>(true);
     const [paginationProps, setPaginationProps] = React.useState({
         currentPage: 1,
         pageSize: 10,
@@ -105,6 +106,7 @@ const Perfiles: React.FC = () => {
     ]
 
     const ListUsuarios = async () => {
+        setLoading(true);
         try {
             const request: ListUsuarioRequest = {
                 page: paginationProps.currentPage - 1,
@@ -122,6 +124,7 @@ const Perfiles: React.FC = () => {
                     totalPages: response.data.totalPages,
                     totalItems: response.data.totalElements,
                 }));
+                setLoading(false);
             } else {
                 toast(response.message, {
                     type: 'error',
@@ -395,6 +398,7 @@ const Perfiles: React.FC = () => {
                     actions={actions}
                     paginationEnabled
                     paginationProps={paginationProps}
+                    loading={loading}
                 />
             </div>
         </>

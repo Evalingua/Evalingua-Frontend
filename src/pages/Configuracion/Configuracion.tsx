@@ -78,22 +78,31 @@ const Configuracion: React.FC = () => {
   }, [tipoConfiguracion]);
 
   const handleSelectionChange = (selected: string[], segmento: string) => {
+    // Encuentra la configuración original de este segmento
+    const configGroup = tipoConfiguracion?.valores.find(c => c.keyname === segmento);
+    if (!configGroup) return;
+
+    const allValues = configGroup.fonemas.map(f => f.value);
+
     const updatedSelectedValues = selectedValues.map(config => {
       if (config.segmento === segmento) {
-        const newFonemas = new Set(selected);
-
-        // Mantener los valores por defecto que no fueron deseleccionados
-        tipoConfiguracion?.valores.find(config => config.keyname === segmento)?.fonemas.forEach(fonema => {
-            if(fonema.selected && !newFonemas.has(fonema.value)){
-                newFonemas.add(fonema.value)
-            }
-        })
-        return { ...config, fonemas: Array.from(newFonemas) };
+        // Si selected está vacío: quitar todos
+        // Si selected abarca todo allValues: seleccionar todos
+        // En otros casos, respetar exactamente selected
+        let newFonemas: string[];
+        if (selected.length === 0) {
+          newFonemas = [];
+        } else if (selected.length === allValues.length &&
+                  allValues.every(v => selected.includes(v))) {
+          newFonemas = [...allValues];
+        } else {
+          newFonemas = [...selected];
+        }
+        return { ...config, fonemas: newFonemas };
       }
       return config;
     });
     
-    console.log('updatedSelectedValues', updatedSelectedValues);
     setSelectedValues(updatedSelectedValues);
   };
 
@@ -140,6 +149,7 @@ const Configuracion: React.FC = () => {
   const handleCloseModal = () => {
     // Solo permitir cerrar si el QR ha sido escaneado
     if (qrScanned) {
+      setSelectedValues([]);
       navigate(`/pacientes`);
     } else {
       toast('Por favor espere a que el código QR sea escaneado antes de continuar', { type: 'warning' });
@@ -204,7 +214,10 @@ const Configuracion: React.FC = () => {
                       key={config.id}
                       options={config.fonemas}
                       label={config.segmento}
-                      onSelectionChange={(selected) => {handleSelectionChange(selected, config.keyname)}}
+                      onSelectionChange={(selected) => {
+                        console.log('selected', selected);
+                        handleSelectionChange(selected, config.keyname)
+                      }}
                     />
                   )
                 })

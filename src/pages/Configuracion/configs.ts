@@ -20,7 +20,7 @@ export const configs = [
                 "keyname": "oclusivas_sordas",
                 "fonemas": [
                     { "id": 1, "value": "p", "label": "/p/", "selected": true },
-                    { "id": 2, "value": "t", "label": "/t/", "selected": true },
+                    /* { "id": 2, "value": "t", "label": "/t/", "selected": true }, */
                     { "id": 3, "value": "k", "label": "/k/", "selected": true }
                 ]
             },
@@ -50,7 +50,7 @@ export const configs = [
                 "fonemas": [
                     { "id": 1, "value": "f", "label": "/f/", "selected": true },
                     { "id": 2, "value": "s", "label": "/s/", "selected": false },
-                    { "id": 3, "value": "j", "label": "/j/", "selected": false },
+                    /* { "id": 3, "value": "j", "label": "/j/", "selected": false }, */
                 ]
             },
             {
@@ -108,12 +108,12 @@ export const configs = [
                 "segmento": "Diptongos",
                 "keyname": "diptongos",
                 "fonemas": [
-                    { "id": 1, "value": "ua", "label": "/ua/", "selected": true },
+                    /* { "id": 1, "value": "ua", "label": "/ua/", "selected": true },
                     { "id": 2, "value": "ue", "label": "/ue/", "selected": true },
-                    { "id": 3, "value": "ie", "label": "/ie/", "selected": false },
+                    { "id": 3, "value": "ie", "label": "/ie/", "selected": false }, */
                     { "id": 4, "value": "au", "label": "/au/", "selected": false },
                     { "id": 5, "value": "ei", "label": "/ei/", "selected": false },
-                    { "id": 6, "value": "eo", "label": "/eo/", "selected": false }
+                    /* { "id": 6, "value": "eo", "label": "/eo/", "selected": false } */
                 ]
             }
         ]
@@ -139,7 +139,7 @@ export const configs = [
                 "keyname": "oclusivas_sordas",
                 "fonemas": [
                     { "id": 1, "value": "p", "label": "/p/", "selected": true },
-                    { "id": 2, "value": "t", "label": "/t/", "selected": true },
+                    /* { "id": 2, "value": "t", "label": "/t/", "selected": true }, */
                     { "id": 3, "value": "k", "label": "/k/", "selected": true }
                 ]
             },
@@ -169,7 +169,7 @@ export const configs = [
                 "fonemas": [
                     { "id": 1, "value": "f", "label": "/f/", "selected": true },
                     { "id": 2, "value": "s", "label": "/s/", "selected": false },
-                    { "id": 3, "value": "j", "label": "/j/", "selected": true }
+                    /* { "id": 3, "value": "j", "label": "/j/", "selected": true } */
                 ]
             },
             {
@@ -227,12 +227,12 @@ export const configs = [
                 "segmento": "Diptongos",
                 "keyname": "diptongos",
                 "fonemas": [
-                    { "id": 1, "value": "ua", "label": "/ua/", "selected": true },
+                    /* { "id": 1, "value": "ua", "label": "/ua/", "selected": true },
                     { "id": 2, "value": "ue", "label": "/ue/", "selected": true },
-                    { "id": 3, "value": "ie", "label": "/ie/", "selected": true },
+                    { "id": 3, "value": "ie", "label": "/ie/", "selected": true }, */
                     { "id": 4, "value": "au", "label": "/au/", "selected": true },
                     { "id": 5, "value": "ei", "label": "/ei/", "selected": false },
-                    { "id": 6, "value": "eo", "label": "/eo/", "selected": false }
+                    /* { "id": 6, "value": "eo", "label": "/eo/", "selected": false } */
                 ]
             }
         ]
@@ -258,7 +258,7 @@ export const configs = [
                 "keyname": "oclusivas_sordas",
                 "fonemas": [
                     { "id": 1, "value": "p", "label": "/p/", "selected": true },
-                    { "id": 2, "value": "t", "label": "/t/", "selected": true },
+                    /* { "id": 2, "value": "t", "label": "/t/", "selected": true }, */
                     { "id": 3, "value": "k", "label": "/k/", "selected": true }
                 ]
             },
@@ -346,12 +346,12 @@ export const configs = [
                 "segmento": "Diptongos",
                 "keyname": "diptongos",
                 "fonemas": [
-                    { "id": 1, "value": "ua", "label": "/ua/", "selected": true },
+                    /* { "id": 1, "value": "ua", "label": "/ua/", "selected": true },
                     { "id": 2, "value": "ue", "label": "/ue/", "selected": true },
-                    { "id": 3, "value": "ie", "label": "/ie/", "selected": true },
+                    { "id": 3, "value": "ie", "label": "/ie/", "selected": true }, */
                     { "id": 4, "value": "au", "label": "/au/", "selected": true },
                     { "id": 5, "value": "ei", "label": "/ei/", "selected": true },
-                    { "id": 6, "value": "eo", "label": "/eo/", "selected": true }
+                    /* { "id": 6, "value": "eo", "label": "/eo/", "selected": true } */
                 ]
             }
         ]

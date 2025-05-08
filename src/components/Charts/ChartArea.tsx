@@ -14,6 +14,8 @@ interface ChartProps {
   legendPosition?: 'top' | 'bottom' | 'left' | 'right';
   max_value?: number;
   height?: number;
+  loading?: boolean;
+  noDataMessage?: string;
 }
 
 const ChartArea: React.FC<ChartProps> = ({
@@ -24,7 +26,8 @@ const ChartArea: React.FC<ChartProps> = ({
   legendPosition = 'top',
   max_value = 100,
   height = 350,
-
+  loading = false,
+  noDataMessage = 'No hay datos disponibles',
 }) => {
   const options: ApexOptions = {
     legend: {
@@ -126,12 +129,32 @@ const ChartArea: React.FC<ChartProps> = ({
 
       <div>
         <div id="chartOne" className="-ml-5">
-          <ReactApexChart
-            options={options}
-            series={seriesData}
-            type="area"
-            height={height}
-          />
+          <div className="mt-4">
+          {loading ? (
+            <div className="flex justify-center items-center h-56">
+              <svg
+                className="animate-spin w-8 h-8 border-b-2 border-primary rounded-full"
+                viewBox="0 0 24 24"
+              />
+              <span className="ml-2 text-sm text-gray-500">
+                Cargando gráfico...
+              </span>
+            </div>
+          ) : seriesData.length === 0 ? (
+            <div className="flex justify-center items-center h-56">
+              <span className="text-sm text-gray-500">
+                {noDataMessage ?? 'No hay datos para mostrar.'}
+              </span>
+            </div>
+          ) : (
+            <ReactApexChart
+              options={options}
+              series={seriesData}
+              type="area"
+              height={height}
+            />
+          )}
+        </div>
         </div>
       </div>
     </div>

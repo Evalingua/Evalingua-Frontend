@@ -14,6 +14,8 @@ const Resultados: React.FC = () => {
     const { evaluacionId, nombrePaciente } = location.state || {};
     const [resultados, setResultados] = React.useState<ResultadoDTOResponse[]>([]);
     const [resultadosDetalle, setResultadosDetalle] = React.useState<ListResultadoDetalleResponse[]>([]);
+    const [loadingResultados, setLoadingResultados] = React.useState<boolean>(true);
+    const [loadingResultadosDetalle, setLoadingResultadosDetalle] = React.useState<boolean>(false);
     const [paginationProps, setPaginationProps] = React.useState<PaginationProps>({
         currentPage: 1,
         pageSize: 10,
@@ -41,6 +43,7 @@ const Resultados: React.FC = () => {
                     totalPages: response.data.totalPages,
                     totalItems: response.data.totalElements,
                 }));
+                setLoadingResultados(false);
             } else {
                 toast(`Error: ${response.message}`, { type: 'error', autoClose: 3000 });
             }            
@@ -54,6 +57,7 @@ const Resultados: React.FC = () => {
             const response = await resultadoDetalleService.getResultadosDetalle(resultadoId);
             if (response.status_code === 200) {
                 setResultadosDetalle(response.data);
+                setLoadingResultadosDetalle(false);
             } else {
                 toast(`Alerta: ${response.message}`, { type: 'warning', autoClose: 3000 });
             }
@@ -94,6 +98,7 @@ const Resultados: React.FC = () => {
         {
             label: "View",
             onClick: (item: any) => {
+                setLoadingResultadosDetalle(true);
                 ListResultadosDetalle(item.id);
             }
         }
@@ -150,15 +155,17 @@ const Resultados: React.FC = () => {
                         actions={actionsResultado}
                         paginationEnabled
                         paginationProps={paginationProps}
+                        loading={loadingResultados}
                     />
                 </div>
                 <div className="flex flex-col gap-5 h-fit col-span-12 xl:col-span-8 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 ">
                     <h2 className="font-bold text-lg">Detalle de resultados por fonema:</h2>
-                    { resultadosDetalle.length > 0 ? (
+                    { loadingResultadosDetalle || resultadosDetalle.length !== 0 ? (
                         <Table
                             columns={columnsResultadosDetalle}
                             data={resultadosDetalle}
                             actions={actionsResultadosDetalle}
+                            loading={loadingResultadosDetalle}
                     />
                     ) : (
                         <div className='flex flex-col items-center justify-center h-full py-8'>

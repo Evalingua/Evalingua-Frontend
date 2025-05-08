@@ -68,7 +68,10 @@ export const PdfViewerModal = ({ isOpen, onClose, evaluacionId }: Props) => {
             className="w-full h-full border rounded"
           />
         ) : (
-          <p>Cargando reporte...</p>
+          <div className='flex flex-col items-center justify-center h-full'>
+            <span className="text-gray-500">Cargando PDF...</span>
+            <svg className="animate-spin w-10 h-10 mr-3 border-b-2 border-primary dark:border-white rounded-full" viewBox="0 0 24 24"></svg>
+          </div>
         )}
       </div>
     </Modal>

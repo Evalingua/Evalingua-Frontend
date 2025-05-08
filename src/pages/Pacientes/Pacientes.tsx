@@ -20,9 +20,8 @@ const Pacientes: React.FC = () => {
   const navigate = useNavigate();
   const {user} = useAuth();
 
-  const [pacientesList, setPacientesList] = React.useState<PacienteResponse[]>(
-    [],
-  );
+  const [pacientesList, setPacientesList] = React.useState<PacienteResponse[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
   const [searchNombre, setSearchNombre] = React.useState<string | undefined>('');
   const [searchDni, setSearchDni] = React.useState<string | undefined>('');
   const [pacienteModal, setPacienteModal] = React.useState({
@@ -113,6 +112,7 @@ const Pacientes: React.FC = () => {
   ];
 
   const handleSearchClick = (value: any) => {
+    setLoading(true);
     if (value === '') {
       ListPacientes();
     } else if (selectedOption === 'dni') {
@@ -132,6 +132,7 @@ const Pacientes: React.FC = () => {
 
   React.useEffect(() => {
     ListPacientes();
+    setLoading(true);
   }, [paginationProps.currentPage]);
 
   const ListPacientes = async () => {
@@ -151,6 +152,7 @@ const Pacientes: React.FC = () => {
         totalItems: response.data.totalElements,
       }));
       setPacientesList(response.data.content);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching pacientes:', error);
       toast(`Error al crear paciente: ${error}`, { type: 'error', autoClose: 3000 });
@@ -203,6 +205,7 @@ const Pacientes: React.FC = () => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
+    setLoading(true);
     if (searchNombre === '' || searchDni === '') {
       ListPacientes();
     } else if (selectedOption === 'dni') {
@@ -433,6 +436,7 @@ const Pacientes: React.FC = () => {
           actions={actions}
           paginationEnabled
           paginationProps={paginationProps}
+          loading={loading}
         />
       </div>
     </>

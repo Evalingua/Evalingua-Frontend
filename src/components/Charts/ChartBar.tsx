@@ -2,16 +2,18 @@ import { ApexOptions } from 'apexcharts';
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-interface ChartTwoProps {
+interface ChartBarProps {
   title?: string;
   categories?: string[];
   seriesData?: { name: string; data: number[] }[];
   colors?: string[];
   legendPosition?: 'top' | 'bottom' | 'left' | 'right';
   horizontal?: boolean;
+  loading?: boolean;
+  noDataMessage?: string;
 }
 
-const ChartBar: React.FC<ChartTwoProps> = ({
+const ChartBar: React.FC<ChartBarProps> = ({
   title = 'Profit this week',
   categories = ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
   seriesData = [
@@ -20,6 +22,8 @@ const ChartBar: React.FC<ChartTwoProps> = ({
   colors = ['#3C50E0', '#80CAEE'],
   legendPosition = 'top',
   horizontal = true,
+  loading = false,
+  noDataMessage = 'No hay datos disponibles',
 }) => {
   const [state, setState] = useState({
     series: seriesData,
@@ -87,13 +91,31 @@ const ChartBar: React.FC<ChartTwoProps> = ({
       </div>
 
       <div id="chartTwo" className="-ml-5 -mb-9">
+      {loading ? (
+        <div className="flex justify-center items-center h-80">
+          <svg
+            className="animate-spin w-8 h-8 border-b-2 border-primary rounded-full"
+            viewBox="0 0 24 24"
+          />
+          <span className="ml-2 text-sm text-gray-500">
+            Cargando gráfico...
+          </span>
+        </div>
+      ) : (seriesData == null || seriesData.length === 0 || seriesData.every(s => s.data.every(v => v === 0))) ? (
+        <div className="flex justify-center items-center h-80">
+          <span className="text-sm text-gray-500">
+            {noDataMessage ?? 'No hay datos para mostrar.'}
+          </span>
+        </div>
+      ) : (
         <ReactApexChart
           options={options}
           series={state.series}
           type="bar"
           height={350}
         />
-      </div>
+      )}
+    </div>
     </div>
   );
 };

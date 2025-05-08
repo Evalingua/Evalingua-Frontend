@@ -29,6 +29,7 @@ const Evaluaciones: React.FC = () => {
     
     return [fechaInicial, fechaFinal];
   });
+  const [loading, setLoading] = React.useState<boolean>(true);
   const [evaluacionList, setEvaluacionList] = React.useState<ListEvaluacionResponse[]>([]);
   const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
   const [showConfirmPDFModal, setShowConfirmPDFModal] = React.useState<boolean>(false);
@@ -75,6 +76,7 @@ const Evaluaciones: React.FC = () => {
         totalItems: response.data.totalElements,
       }));
       setEvaluacionList(response.data.content);
+      setLoading(false);
     } catch (error) {
       
       console.error('Error fetching pacientes:', error);
@@ -108,16 +110,18 @@ const Evaluaciones: React.FC = () => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
+    setLoading(true);
     ListEvaluaciones();
     
   }
 
   const handlePagination = (page: number) => {
-    console.log(page);
+    setLoading(true);
     setPaginationProps(prevProps => ({ ...prevProps, currentPage: page }));
   };
 
   React.useEffect(() => {
+    setLoading(true);
     ListEvaluaciones();
   }, [paginationProps.currentPage, selectedOptionEstado, selectedOptionFecha]);
 
@@ -279,6 +283,7 @@ const Evaluaciones: React.FC = () => {
           actions={actions}
           paginationEnabled
           paginationProps={paginationProps}
+          loading={loading}
         />
       </div>
     </>
