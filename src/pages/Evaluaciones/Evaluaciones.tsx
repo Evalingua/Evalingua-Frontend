@@ -10,6 +10,7 @@ import { EvaluacionService } from '../../services/evaluacion/EvaluacionService';
 import { ListEvaluacionRequest, ListEvaluacionResponse } from '../../types/evaluacion.type';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
+import { PdfViewerModal } from '../../components/PdfViewerModal';
 
 const Evaluaciones: React.FC = () => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const Evaluaciones: React.FC = () => {
   });
   const [evaluacionList, setEvaluacionList] = React.useState<ListEvaluacionResponse[]>([]);
   const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
+  const [showConfirmPDFModal, setShowConfirmPDFModal] = React.useState<boolean>(false);
   const [showPDFModal, setShowPDFModal] = React.useState<boolean>(false);
   const [paginationProps, setPaginationProps] = React.useState<PaginationProps>({
     currentPage: 1,
@@ -155,8 +157,9 @@ const Evaluaciones: React.FC = () => {
     },
     {
       label: 'Download',
-      onClick: () => {
-        setShowPDFModal(true);
+      onClick: (item: any) => {
+        setEvaluacionSelected(item);
+        setShowConfirmPDFModal(true);
       },
     },
     { label: 'Delete', onClick: (item: any) => {
@@ -238,24 +241,24 @@ const Evaluaciones: React.FC = () => {
           </Modal>
 
           <Modal
-            isOpen={showPDFModal}
-            onClose={() => setShowPDFModal(false)}
+            isOpen={showConfirmPDFModal}
+            onClose={() => setShowConfirmPDFModal(false)}
             closeOnClickOutside={false}
             size="sm"
             title="Generar reporte"
             footer={
               <div className="flex justify-end gap-3">
                 <button
-                  onClick={() => setShowPDFModal(false)}
+                  onClick={() => setShowConfirmPDFModal(false)}
                   className="rounded-lg border border-primary px-6 py-2 dark:text-white text-primary"
                 >
                   Cerrar
                 </button>
                 <button
-                  onClick={() => setShowPDFModal(false)}
+                  onClick={() => setShowPDFModal(true)}
                   className="rounded-lg bg-primary px-6 py-2 text-white"
                 >
-                  Guardar
+                  Generar
                 </button>
               </div>
             }
@@ -264,6 +267,11 @@ const Evaluaciones: React.FC = () => {
               <p>¿Estas seguro que deseas generar el reporte de este paciente?</p>
             </div>
           </Modal>
+          <PdfViewerModal
+            isOpen={showPDFModal}
+            onClose={() => {setShowPDFModal(false); setShowConfirmPDFModal(false)}}
+            evaluacionId={evaluacionSelected.id}
+          />
         </div>
         <Table
           columns={columns}
