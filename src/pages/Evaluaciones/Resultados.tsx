@@ -164,7 +164,7 @@ const Resultados: React.FC = () => {
                         <Table
                             columns={columnsResultadosDetalle}
                             data={resultadosDetalle}
-                            actions={actionsResultadosDetalle}
+                            /* actions={actionsResultadosDetalle} */
                             loading={loadingResultadosDetalle}
                     />
                     ) : (
