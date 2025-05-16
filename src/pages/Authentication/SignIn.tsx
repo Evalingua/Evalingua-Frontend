@@ -28,9 +28,9 @@ const SignIn: React.FC = () => {
   return (
     <>
       <div className="dark:border-strokedark dark:bg-boxdark min-h-screen">
-        <div className="flex flex-wrap-reverse xl:flex-wrap items-center h-screen">
-          <div className="w-full xl:block xl:w-1/2">
-            <div className="py-17.5 px-26 text-center">
+        <div className="flex flex-col lg:flex-wrap justify-center items-center h-screen">
+          <div className="w-full lg:block lg:w-1/2">
+            <div className="py-2 lg:py-17.5 px-10 lg:px-26 text-center">
               <h2 className="text-boxdark text-title-xl font-extrabold">
                 EVALINGUA
               </h2>
@@ -40,7 +40,7 @@ const SignIn: React.FC = () => {
                 fonética-fonológica
               </p>
 
-              <span className="mt-15 inline-block">
+              <span className="mt-2 lg:mt-15 hidden lg:inline-block">
                 <svg
                   width="350"
                   height="350"
@@ -165,7 +165,7 @@ const SignIn: React.FC = () => {
             </div>
           </div>
 
-          <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
+          <div className="w-full border-stroke dark:border-strokedark lg:w-1/2 lg:border-l-2">
             <div className="w-full p-8 sm:p-12.5 xl:p-17.5 xl:pr-50">
               <h2 className="mb-4 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Inicia sesión
