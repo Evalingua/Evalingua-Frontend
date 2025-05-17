@@ -16,11 +16,13 @@ import Select from '../../components/Forms/SelectGroup/Select';
 import { PacienteRequest } from '../../types/paciente';
 import { PacienteService } from '../../services/paciente/PacienteService';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Inicio: React.FC = () => {
   const evaluacionService = new EvaluacionService();
   const estadisticaService = new EstadisticaService();
   const pacienteService = new PacienteService();
+  const navigate = useNavigate();
   const [proximasEvaluaciones, setProximasEvaluaciones] = React.useState<ProximaEvaluacionResponse[]>([]);
   const [graficoGlobal, setGraficoGlobal] = React.useState<GraficoDTO>();
   const [showPacienteModal, setShowPacienteModal] = React.useState<boolean>(false);
@@ -120,31 +122,42 @@ const Inicio: React.FC = () => {
               Evalingua, la plataforma de evaluación fonética-fonológica.
             </span>
           </div>
-          <button 
-            className="bg-sky_slate/40 dark:bg-sky_slate/30 p-5 w-fit rounded-lg flex items-center gap-2"
-            onClick={() => setShowPacienteModal(true)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 48 48"
-              className="text-slate_blue dark:text-white"
+          <div className='flex flex-wrap gap-3'>
+            <button 
+              className="bg-sky_slate/40 dark:bg-sky_slate/30 p-5 w-fit rounded-lg flex items-center gap-2"
+              onClick={() => setShowPacienteModal(true)}
             >
-              <g
-                fill="none"
-                stroke="currentColor"
-                strokeLinejoin="round"
-                strokeWidth="4"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 48 48"
+                className="text-slate_blue dark:text-white"
               >
-                <path d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20Z" />
-                <path strokeLinecap="round" d="M24 16v16m-8-8h16" />
-              </g>
-            </svg>
+                <g
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinejoin="round"
+                  strokeWidth="4"
+                >
+                  <path d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20Z" />
+                  <path strokeLinecap="round" d="M24 16v16m-8-8h16" />
+                </g>
+              </svg>
+              <h3 className="text-slate_blue font-bold dark:text-slate-200">
+                Agregar paciente
+              </h3>
+            </button>
+            <button 
+            className="bg-sky_slate/40 dark:bg-sky_slate/30 p-5 w-fit rounded-lg flex items-center gap-2"
+            onClick={() => navigate('/tutoriales')}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M21 3H3a2 2 0 0 0-2 2v3h2V5h18v14h-7v2h7a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2M1 18v3h3a3 3 0 0 0-3-3m0-4v2a5 5 0 0 1 5 5h2a7 7 0 0 0-7-7m0-4v2a9 9 0 0 1 9 9h2c0-6.08-4.93-11-11-11m10 1.09v2L14.5 15l3.5-1.91v-2L14.5 13zM14.5 6L9 9l5.5 3L20 9z"/></svg>
             <h3 className="text-slate_blue font-bold dark:text-slate-200">
-              Agregar paciente
+              Ver tutoriales
             </h3>
           </button>
+          </div>
         </div>
         <div className="flex flex-col gap-5 col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5">
           <h2 className="font-bold text-lg">Proximas evaluaciones</h2>

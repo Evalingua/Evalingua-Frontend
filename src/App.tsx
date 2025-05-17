@@ -18,6 +18,7 @@ import PacienteDetalle from './pages/Pacientes/PacienteDetalle';
 import Resultados from './pages/Evaluaciones/Resultados';
 import Estadisticas from './pages/Estadisticas/Estadisticas';
 import Perfiles from './pages/Perfiles/Perfiles';
+import Tutoriales from './pages/Tutoriales/Tutoriales';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -143,6 +144,17 @@ function App() {
             <DefaultLayout>
               <PageTitle title="Resultados | Evalingua" />
               <Resultados />
+            </DefaultLayout>
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/tutoriales"
+        element={
+          <AuthGuard>
+            <DefaultLayout>
+              <PageTitle title="Tutoriales | Evalingua" />
+              <Tutoriales />
             </DefaultLayout>
           </AuthGuard>
         }
