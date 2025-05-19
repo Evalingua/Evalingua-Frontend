@@ -54,8 +54,8 @@ const PacienteDetalle: React.FC = () => {
     return (
         <>
             <Breadcrumb pageName="Detalles del paciente" back/>
-            <section className='grid grid-cols-12 gap-4'>
-                <section className="flex flex-col col-span-4 gap-5 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5">
+            <section className='grid grid-cols-1 xl:grid-cols-12 gap-4'>
+                <section className="flex flex-col col-span-12 xl:col-span-4 gap-5 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5">
                     <div className='flex w-full gap-5'>
                         <Input
                             disabled
@@ -87,7 +87,7 @@ const PacienteDetalle: React.FC = () => {
                     <div className='flex w-full gap-5'>
                         <Input
                             disabled
-                            label='Fecha de nacimiento'
+                            label='F. nacimiento'
                             value={paciente?.fechaNacimiento}
                             classSize='w-full'
                         />
@@ -117,7 +117,7 @@ const PacienteDetalle: React.FC = () => {
                         />
                     </div>
                 </section>
-                <section className="flex flex-col col-span-8 gap-5 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5">
+                <section className="flex flex-col col-span-12 xl:col-span-8 gap-5 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5">
                     <ChartArea
                         title="Evolución del paciente"
                         categories={evolucionPaciente?.categories ?? []}

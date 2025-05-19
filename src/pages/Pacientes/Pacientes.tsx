@@ -221,12 +221,13 @@ const Pacientes: React.FC = () => {
     <>
       <Breadcumb pageName="Pacientes"></Breadcumb>
       <div className="flex flex-col gap-5 col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5">
-        <div className="flex justify-between">
-          <form onSubmit={handleSubmit} className="flex gap-3">
+        <div className="flex flex-col md:flex-row justify-between">
+          <form onSubmit={handleSubmit} className="flex w-full md:w-fit md:mb-0 mb-2 gap-3">
             <Select
               options={options}
               value={selectedOption}
               onChange={(value) => setSelectedOption(value)}
+              className='w-48 md:w-32'
             />
             {selectedOption === 'dni' ? (
               <Input
@@ -265,6 +266,10 @@ const Pacientes: React.FC = () => {
               });
             }}
             backgroundColor="#3C50E0"
+            className='w-fit'
+            icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" fill="none"/><path fill="currentColor" d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2zm-1 11a10 10 0 1 1 0-20a10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16a8 8 0 0 0 0 16"/></svg>
+            }
           />
           <Modal
             isOpen={showPacienteModal}

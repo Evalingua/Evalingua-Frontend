@@ -5,9 +5,9 @@ interface ButtonProps {
   text: string;
   backgroundColor?: string;
   textColor?: string;
-  icon?: ReactNode; // Nueva prop para el ícono
-  iconPosition?: 'left' | 'right'; // Nueva prop para la posición del ícono
+  icon?: ReactNode;
   onClick?: () => void;
+  className?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -15,8 +15,8 @@ const Button: React.FC<ButtonProps> = ({
   backgroundColor = '#3C50E0',
   textColor = '#ffffff',
   icon,
-  iconPosition = 'left',
   onClick,
+  className,
 }) => {
   return (
     <button
@@ -24,19 +24,19 @@ const Button: React.FC<ButtonProps> = ({
       style={{
         backgroundColor,
         color: textColor,
-        padding: '10px 15px',
         border: 'none',
-        borderRadius: '4px',
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
       }}
-      className="text-xs md:text-sm h-fit"
+      className={`text-xs md:text-sm h-fit py-5 px-5
+        fixed bottom-4 right-4 rounded-full shadow-lg z-50
+        md:static md:rounded md:shadow-none md:z-auto md:py-3 md:px-3
+        ${className}`}
     >
-      {icon && iconPosition === 'left' && <span>{icon}</span>}
-      <span>{text}</span>
-      {icon && iconPosition === 'right' && <span>{icon}</span>}
+      {icon && <span className='inline-flex md:hidden'>{icon}</span>}
+      <span className='hidden md:inline-block'>{text}</span>
     </button>
   );
 };

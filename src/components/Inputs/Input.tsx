@@ -69,7 +69,7 @@ const Input: React.FC<ModalProps> = ({
             <button
               type="button"
               onClick={() => onSearchClick(value)}
-              className="text-white w-10 h-11 flex items-center justify-center"
+              className="text-white w-10 h-10 md:h-11 flex items-center justify-center"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

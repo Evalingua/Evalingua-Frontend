@@ -122,34 +122,18 @@ const Inicio: React.FC = () => {
               Evalingua, la plataforma de evaluación fonética-fonológica.
             </span>
           </div>
-          <div className='flex flex-wrap gap-3'>
+          <div className='flex flex-row md:w-auto w-full gap-3'>
             <button 
-              className="bg-sky_slate/40 dark:bg-sky_slate/30 p-5 w-fit rounded-lg flex items-center gap-2"
+              className="bg-sky_slate/40 dark:bg-sky_slate/30 p-2 md:p-5 w-full md:w-fit rounded-lg flex flex-col md:flex-row items-center gap-2"
               onClick={() => setShowPacienteModal(true)}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 48 48"
-                className="text-slate_blue dark:text-white"
-              >
-                <g
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinejoin="round"
-                  strokeWidth="4"
-                >
-                  <path d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20Z" />
-                  <path strokeLinecap="round" d="M24 16v16m-8-8h16" />
-                </g>
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M12 4c4.411 0 8 3.589 8 8s-3.589 8-8 8s-8-3.589-8-8s3.589-8 8-8m0-2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2m5 9h-4V7h-2v4H7v2h4v4h2v-4h4z"/></svg>
               <h3 className="text-slate_blue font-bold dark:text-slate-200">
                 Agregar paciente
               </h3>
             </button>
             <button 
-            className="bg-sky_slate/40 dark:bg-sky_slate/30 p-5 w-fit rounded-lg flex items-center gap-2"
+            className="bg-sky_slate/40 dark:bg-sky_slate/30 p-2 md:p-5 w-full md:w-fit rounded-lg flex flex-col md:flex-row items-center gap-2"
             onClick={() => navigate('/tutoriales')}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M21 3H3a2 2 0 0 0-2 2v3h2V5h18v14h-7v2h7a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2M1 18v3h3a3 3 0 0 0-3-3m0-4v2a5 5 0 0 1 5 5h2a7 7 0 0 0-7-7m0-4v2a9 9 0 0 1 9 9h2c0-6.08-4.93-11-11-11m10 1.09v2L14.5 15l3.5-1.91v-2L14.5 13zM14.5 6L9 9l5.5 3L20 9z"/></svg>

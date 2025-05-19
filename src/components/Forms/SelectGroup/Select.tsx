@@ -73,7 +73,7 @@ const Select: React.FC<SelectProps> = ({
           disabled={disabled}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className={`relative z-20 w-full appearance-none rounded border disabled:bg-slate-100 border-stroke bg-transparent py-2 md:py-3 px-3 text-xs md:text-sm outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary cursor-pointer ${
+          className={`relative z-20 w-full appearance-none rounded border disabled:bg-slate-100 border-stroke bg-transparent py-3 px-3 text-xs md:text-sm outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary cursor-pointer ${
             isOptionSelected ? 'text-black dark:text-white' : ''
           } ${disabled ? 'cursor-not-allowed opacity-70' : ''}`}
         >

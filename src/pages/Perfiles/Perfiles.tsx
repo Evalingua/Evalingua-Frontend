@@ -8,6 +8,7 @@ import { UsuarioService } from "../../services/usuario/UsuarioService";
 import { toast } from "react-toastify";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
+import { set } from "date-fns";
 
 const Perfiles: React.FC = () => {
     const usuarioService = new UsuarioService();
@@ -35,7 +36,7 @@ const Perfiles: React.FC = () => {
         apellidos: '',
         email: '',
         celular: '',
-        rol: 'ADMIN'
+        rol: 'TERAPEUTA'
     });
 
     const optionsSearch = [
@@ -151,6 +152,14 @@ const Perfiles: React.FC = () => {
             if (response.status_code === 200) {
                 toast(response.message, {type: 'success', position: 'top-right', autoClose: 2000, hideProgressBar: false});
                 setShowModal({ ...showModal, new: false });
+                setUsuario({
+                    username: '',
+                    nombre: '',
+                    apellidos: '',
+                    email: '',
+                    celular: '',
+                    rol: 'TERAPEUTA'
+                });
                 ListUsuarios();
             } else {
                 toast(response.message, {type: 'error', position: 'top-right', autoClose: 2000, hideProgressBar: false});
@@ -253,6 +262,9 @@ const Perfiles: React.FC = () => {
                             text="Nuevo usuario"
                             onClick={() => setShowModal({ ...showModal, new: true })}
                             backgroundColor="#3C50E0"
+                            icon={
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" fill="none"/><path fill="currentColor" d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2zm-1 11a10 10 0 1 1 0-20a10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16a8 8 0 0 0 0 16"/></svg>
+                            }
                         />
                     </div>
                     <Modal
