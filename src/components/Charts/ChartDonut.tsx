@@ -1,5 +1,5 @@
 import { ApexOptions } from 'apexcharts';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 interface ChartProps {
@@ -17,8 +17,15 @@ const ChartDonut: React.FC<ChartProps> = ({
   colors = ['#3C50E0', '#6577F3', '#8FD0EF', '#0FADCF'],
   title = 'Visitors Analytics',
   loading = false,
-  noDataMessage,
+  noDataMessage = 'No hay datos disponibles',
 }) => {
+  // Use internal state to trigger re-render on prop changes
+  const [localSeries, setLocalSeries] = useState<number[]>(series);
+
+  useEffect(() => {
+    setLocalSeries(series);
+  }, [series]);
+
   const options: ApexOptions = {
     chart: { fontFamily: 'Satoshi, sans-serif', type: 'donut' },
     colors,
@@ -31,6 +38,8 @@ const ChartDonut: React.FC<ChartProps> = ({
       { breakpoint: 640, options: { chart: { width: 200 } } },
     ],
   };
+
+  const hasData = Array.isArray(localSeries) && localSeries.length > 0;
 
   return (
     <div className="sm:px-7.5 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
@@ -47,16 +56,21 @@ const ChartDonut: React.FC<ChartProps> = ({
             />
             <span className="ml-2 text-sm text-gray-500">Cargando gráfico...</span>
           </div>
-        ) : series.length === 0 ? (
+        ) : !hasData ? (
           <div className="flex justify-center items-center h-64">
-            <span className="text-sm text-gray-500">
-              {noDataMessage ?? 'No hay datos para mostrar.'}
-            </span>
+            <span className="text-sm text-gray-500">{noDataMessage}</span>
           </div>
         ) : (
           <>
             <div id="chartThree" className="mx-auto flex justify-center">
-              <ReactApexChart options={options} series={series} type="donut" />
+              {/* Use key to force remount if labels change length */}
+              <ReactApexChart
+                key={localSeries.join('-') + labels.join('-')}
+                options={options}
+                series={localSeries}
+                type="donut"
+                height={350}
+              />
             </div>
             <div className="-mx-8 flex flex-wrap items-center justify-center gap-y-3 mt-4">
               {labels.map((label, index) => (
@@ -68,7 +82,7 @@ const ChartDonut: React.FC<ChartProps> = ({
                     />
                     <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
                       <span>{label}</span>
-                      <span>{series[index]}%</span>
+                      <span>{localSeries[index]}%</span>
                     </p>
                   </div>
                 </div>
