@@ -8,7 +8,6 @@ import { UsuarioService } from "../../services/usuario/UsuarioService";
 import { toast } from "react-toastify";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
-import { set } from "date-fns";
 
 const Perfiles: React.FC = () => {
     const usuarioService = new UsuarioService();
