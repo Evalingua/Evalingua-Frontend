@@ -67,7 +67,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
       <div className={`relative ${wrapperClassName}`}>
         <input
           ref={inputRef}
-          className={`form-datepicker text-xs md:text-[1rem] w-fit rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-2 md:py-3 font-normal outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${inputClassName}`}
+          className={`form-datepicker text-xs md:text-[1rem] w-fit h-10.5 md:h-11 rounded-sm border-[1.5px] border-stroke bg-transparent px-5 py-2 md:py-3 font-normal outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${inputClassName}`}
           placeholder={placeholder}
           data-class="flatpickr-right"
         />

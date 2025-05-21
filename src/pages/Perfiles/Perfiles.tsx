@@ -221,7 +221,7 @@ const Perfiles: React.FC = () => {
             <Breadcrumb pageName="Perfiles" />
             <div className="flex flex-col gap-5 col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5">
                 <div className="flex items-end justify-between">
-                    <div className="flex gap-3 items-end">
+                    <div className="flex flex-wrap gap-3 items-end">
                         <form onSubmit={handleSubmit} className="flex gap-2">
                             <Select
                                 placeholder="Buscar por"

@@ -61,7 +61,7 @@ const Input: React.FC<ModalProps> = ({
           value={value}
           onChange={onChange}
           maxLength={maxLength}
-          className={`w-full py-2 md:py-3 px-3 text-black text-xs md:text-sm outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary
+          className={`w-full h-10.5 md:h-11 px-3 text-black text-xs md:text-sm outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary
            `}
         />
         {isSearch && (
@@ -69,7 +69,7 @@ const Input: React.FC<ModalProps> = ({
             <button
               type="button"
               onClick={() => onSearchClick(value)}
-              className="text-white w-10 h-10 md:h-11 flex items-center justify-center"
+              className="text-white w-10 h-10.5 md:h-11 flex items-center justify-center"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
