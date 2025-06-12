@@ -19,7 +19,7 @@ const Pacientes: React.FC = () => {
   const pacienteService = new PacienteService();
   const navigate = useNavigate();
   const {user} = useAuth();
-
+  const [editMode, setEditMode] = React.useState(false);
   const [pacientesList, setPacientesList] = React.useState<PacienteResponse[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [searchNombre, setSearchNombre] = React.useState<string | undefined>('');
@@ -64,6 +64,7 @@ const Pacientes: React.FC = () => {
     {
       label: 'Edit',
       onClick: (item: any) => {
+        setEditMode(true);
         setShowPacienteModal(true);
         let paciente = pacientesList.find((paciente) => paciente.dni === item.dni);
         const fechaNacimiento = paciente?.fechaNacimiento ? parseISO(paciente.fechaNacimiento) : null;
@@ -132,10 +133,11 @@ const Pacientes: React.FC = () => {
 
   React.useEffect(() => {
     ListPacientes();
-    setLoading(true);
+    
   }, [paginationProps.currentPage]);
 
   const ListPacientes = async () => {
+    setLoading(true);
     try {
       const request: ListarPacienteRequest = {
         page: paginationProps.currentPage - 1,
@@ -190,6 +192,38 @@ const Pacientes: React.FC = () => {
     }
   };
 
+  const updatePaciente = async () => {
+    console.log('Paciente:', pacienteModal);
+    try {
+      let updatedPaciente: PacienteRequest = {
+        dni: parseInt(pacienteModal.dni),
+        nombre: pacienteModal.nombre,
+        apellidoPaterno: pacienteModal.apellidoPaterno,
+        apellidoMaterno: pacienteModal.apellidoMaterno,
+        fechaNacimiento: format(new Date(pacienteModal.fechaNacimiento), 'yyyy-MM-dd'),
+        sexo: pacienteModal.sexo,
+        observaciones: pacienteModal.observaciones,
+        usuarioRegistro: user?.username ?? '',
+      };
+      const response = await pacienteService.updatePaciente(pacienteModal.dni, updatedPaciente).then((res) => {
+        if (res.status_code !== 200) {
+          toast(`Error al actualizar paciente: ${res.message}`, { type: 'error', autoClose: 3000 });
+        } else {
+          toast('Paciente actualizado correctamente', { type: 'success', autoClose: 3000 });
+        }
+        return res;
+      });
+      console.log('Paciente actualizado:', response);
+      if (response.data) {
+        setShowPacienteModal(false);
+        setEditMode(false);
+        ListPacientes();
+      }
+    } catch (error) {
+      console.error('Error actualizando paciente:', error);
+    }
+  }
+
   const deletePaciente = async (dni: number) => {
     try {
       const response = await pacienteService.deletePaciente(dni);
@@ -205,7 +239,7 @@ const Pacientes: React.FC = () => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    setLoading(true);
+    //setLoading(true);
     if (searchNombre === '' || searchDni === '') {
       ListPacientes();
     } else if (selectedOption === 'dni') {
@@ -276,7 +310,7 @@ const Pacientes: React.FC = () => {
             onClose={() => setShowPacienteModal(false)}
             closeOnClickOutside={false}
             size="xl"
-            title="Agregar paciente"
+            title={editMode ? "Editar paciente" : "Agregar paciente"}
             footer={
               <div className="flex justify-end gap-3">
                 <button
@@ -286,7 +320,7 @@ const Pacientes: React.FC = () => {
                   Cerrar
                 </button>
                 <button
-                  onClick={() => addPaciente()}
+                  onClick={() => { editMode ? updatePaciente() : addPaciente() }}
                   className="rounded-lg bg-primary px-6 py-2 text-white disabled:opacity-50"
                   disabled={
                     pacienteModal.dni === '' ||
@@ -297,7 +331,7 @@ const Pacientes: React.FC = () => {
                     pacienteModal.sexo === ''
                   }
                 >
-                  Guardar
+                  {editMode ? "Actualizar" : "Guardar"}
                 </button>
               </div>
             }
