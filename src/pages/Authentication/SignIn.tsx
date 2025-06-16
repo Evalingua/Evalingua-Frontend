@@ -18,6 +18,7 @@ const SignIn: React.FC = () => {
     try {
       setLoading(true);
       await login(username, password);
+      toast('Inicio de sesión exitoso', { type: 'success', autoClose: 3000 });
       navigate((location.state as any)?.from ?.pathname || '/');
     } catch (e) {
       toast(`${e}`, { type: 'error', autoClose: 3000,  });
