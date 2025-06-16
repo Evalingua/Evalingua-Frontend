@@ -56,6 +56,9 @@ const Evaluaciones: React.FC = () => {
   ];
 
   const ListEvaluaciones = async () => {
+    const fechaFinal = new Date(selectedOptionFecha[1]);
+    fechaFinal.setHours(23, 59, 59, 999);
+
     try {
       const request: ListEvaluacionRequest = {
         page: paginationProps.currentPage - 1,
@@ -65,11 +68,9 @@ const Evaluaciones: React.FC = () => {
         estadoRegistro: true,
         estadoEvaluacion: selectedOptionEstado == 'TODOS' ? undefined : selectedOptionEstado,
         fechaEvaluacionInicio: format(selectedOptionFecha[0], 'yyyy-MM-dd HH:mm:ss') ?? null,
-        fechaEvaluacionFin: format(selectedOptionFecha[1], 'yyyy-MM-dd HH:mm:ss') ?? null
+        fechaEvaluacionFin: format(fechaFinal, 'yyyy-MM-dd HH:mm:ss') ?? null
       }
-      console.log('Request:', request);
       const response = await evaluacionService.getAllEvaluaciones(request);
-      console.log('Response:', response);
       setPaginationProps(prevProps => ({
         ...prevProps,
         totalPages: response.data.totalPages,
@@ -108,12 +109,17 @@ const Evaluaciones: React.FC = () => {
     }
   }
 
+  const handleSearch = (value: string) => {
+    setLoading(true);
+    setSearch(value);
+    ListEvaluaciones();    
+  }
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
     setLoading(true);
     ListEvaluaciones();
-    
-  }
+  };
 
   const handlePagination = (page: number) => {
     setLoading(true);
@@ -184,7 +190,10 @@ const Evaluaciones: React.FC = () => {
               <Select
                 options={optionsSearch}
                 value={selectedOption}
-                onChange={(value) => setSelectedOption(value)}
+                onChange={(value) => {
+                  setSelectedOption(value);
+                  setSearch('');
+                }}
               />
               <Input
                 placeholder="Buscar"
@@ -192,7 +201,7 @@ const Evaluaciones: React.FC = () => {
                 value={search}
                 type={selectedOption === 'dni' ? 'number' : 'text'}
                 onChange={(e) => setSearch(e.target.value)}
-                onSearchClick={handleSubmit}
+                onSearchClick={(value) => handleSearch(value)}
               />
             </form>
             <DatePicker

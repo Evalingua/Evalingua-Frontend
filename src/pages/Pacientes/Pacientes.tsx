@@ -22,8 +22,7 @@ const Pacientes: React.FC = () => {
   const [editMode, setEditMode] = React.useState(false);
   const [pacientesList, setPacientesList] = React.useState<PacienteResponse[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
-  const [searchNombre, setSearchNombre] = React.useState<string | undefined>('');
-  const [searchDni, setSearchDni] = React.useState<string | undefined>('');
+  const [search, setSearch] = React.useState<string | undefined>('');
   const [pacienteModal, setPacienteModal] = React.useState({
     dni: '',
     nombre: '',
@@ -114,15 +113,8 @@ const Pacientes: React.FC = () => {
 
   const handleSearchClick = (value: any) => {
     setLoading(true);
-    if (value === '') {
-      ListPacientes();
-    } else if (selectedOption === 'dni') {
-      setSearchNombre(undefined);
-      ListPacientes
-    } else {
-      setSearchDni(undefined);
-      ListPacientes
-    }
+    setSearch(value);
+    ListPacientes();
   };
 
   const handlePagination = (page: number) => {
@@ -142,9 +134,9 @@ const Pacientes: React.FC = () => {
       const request: ListarPacienteRequest = {
         page: paginationProps.currentPage - 1,
         size: paginationProps.pageSize,
-        dni: searchDni ?? undefined,
-        nombres: searchNombre ?? undefined,
-        usuarioRegistro: undefined,
+        dni: selectedOption == "dni" ? search : undefined,
+        nombres: selectedOption == "nombre" ? search : undefined,
+        usuarioRegistro: user?.role != "ADMIN" ? user?.username : undefined,
         estadoRegistro: true
       }
       const response = await pacienteService.getAllPacientes(request)
@@ -239,16 +231,8 @@ const Pacientes: React.FC = () => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    //setLoading(true);
-    if (searchNombre === '' || searchDni === '') {
-      ListPacientes();
-    } else if (selectedOption === 'dni') {
-      setSearchNombre(undefined);
-      ListPacientes();
-    } else {
-      setSearchDni(undefined);
-      ListPacientes();
-    }
+    setLoading(true);
+    ListPacientes();
   }
 
   return (
@@ -260,29 +244,18 @@ const Pacientes: React.FC = () => {
             <Select
               options={options}
               value={selectedOption}
-              onChange={(value) => setSelectedOption(value)}
+              onChange={(value) => {setSelectedOption(value); setSearch('');}}
               className='w-48 md:w-32'
             />
-            {selectedOption === 'dni' ? (
-              <Input
+            <Input
                 placeholder="Buscar pacientes"
                 isSearch
-                value={searchDni}
+                value={search}
                 classSize="w-96"
-                type="number"
-                onChange={(e) => setSearchDni(e.target.value)}
-                onSearchClick={handleSearchClick}
+                type={selectedOption === 'dni' ? 'number' : 'text'}
+                onChange={(e) => setSearch(e.target.value)}
+                onSearchClick={(value) => handleSearchClick(value)}
               />
-            ) : (
-              <Input
-                placeholder="Buscar pacientes"
-                isSearch
-                value={searchNombre}
-                classSize="w-96"
-                onChange={(e) => setSearchNombre(e.target.value)}
-                onSearchClick={handleSearchClick}
-              />
-            )}
           </form>
           <Button
             text="Agregar paciente"

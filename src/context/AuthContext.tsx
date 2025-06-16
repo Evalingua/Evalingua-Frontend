@@ -52,6 +52,12 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
       };
     }
     case 'LOGOUT':
+      return {
+        isAuthenticated: false,
+        user: null,
+        token: null,
+        isLoading: false,
+      };
     case 'TOKEN_INVALID':
       return initialState;
     default:

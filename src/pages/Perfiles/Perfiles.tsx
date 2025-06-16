@@ -202,8 +202,15 @@ const Perfiles: React.FC = () => {
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
+        setLoading(true);
         ListUsuarios();
     }
+
+    const handleSearchClick = (value: any) => {
+        setLoading(true);
+        setSearch(value);
+        ListUsuarios();
+      };
 
     React.useEffect(() => {
         ListUsuarios();
@@ -228,7 +235,7 @@ const Perfiles: React.FC = () => {
                                 options={optionsSearch}
                                 value={selectedOption}
                                 className="w-28"
-                                onChange={(value) => setSelectedOption(value)}
+                                onChange={(value) => {setSelectedOption(value); setSearch('');}}
                             />
                             <Input
                                 placeholder="Buscar"
@@ -236,7 +243,7 @@ const Perfiles: React.FC = () => {
                                 value={search}
                                 type={selectedOption === 'dni' ? 'number' : 'text'}
                                 onChange={(e) => setSearch(e.target.value)}
-                                onSearchClick={handleSubmit}
+                                onSearchClick={(value) => handleSearchClick(value)}
                             />
                         </form>
                         <Select
