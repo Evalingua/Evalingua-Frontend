@@ -71,6 +71,15 @@ const Evaluaciones: React.FC = () => {
         fechaEvaluacionFin: format(fechaFinal, 'yyyy-MM-dd HH:mm:ss') ?? null
       }
       const response = await evaluacionService.getAllEvaluaciones(request);
+      // Restar 5 horas a la fecha de evaluación de cada registro
+      if (response.data && Array.isArray(response.data.content)) {
+        response.data.content = response.data.content.map((item: any) => ({
+          ...item,
+          fechaEvaluacion: item.fechaEvaluacion
+        ? format(new Date(new Date(item.fechaEvaluacion).getTime() - 5 * 60 * 60 * 1000), 'yyyy-MM-dd HH:mm:ss')
+        : item.fechaEvaluacion,
+        }));
+      }
       setPaginationProps(prevProps => ({
         ...prevProps,
         totalPages: response.data.totalPages,
